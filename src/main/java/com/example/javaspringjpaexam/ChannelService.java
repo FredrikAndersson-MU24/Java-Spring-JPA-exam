@@ -10,4 +10,8 @@ public class ChannelService {
     public ChannelService(ChannelRepository channelRepository) {
         this.channelRepository = channelRepository;
     }
+
+    public Channel createChannel(Channel newChannel) {
+        return channelRepository.save(newChannel);
+    }
 }
