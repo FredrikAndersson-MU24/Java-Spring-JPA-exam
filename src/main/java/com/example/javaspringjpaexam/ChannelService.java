@@ -4,6 +4,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChannelService {
@@ -14,6 +15,12 @@ public class ChannelService {
         this.channelRepository = channelRepository;
     }
 
+    // Create
+    public Channel createChannel(Channel newChannel) {
+        return channelRepository.save(newChannel);
+    }
+
+    //Read
     public List<Channel> getAllChannels() {
         return channelRepository.findAll();
     }
@@ -26,11 +33,18 @@ public class ChannelService {
         return channelRepository.findChannelsByNameContainingIgnoreCase(searchTerm);
     }
 
-
-    public Channel createChannel(Channel newChannel) {
-        return channelRepository.save(newChannel);
+    //Update
+    public Channel updateChannelByID(Channel channelToUpdate, long id) {
+        Channel channel = getChannelById(id);
+        if (channel != null) {
+            channel.setName(channelToUpdate.getName());
+            return channelRepository.save(channel);
+        }
+        return null;
     }
 
+
+    //Delete
     public void deleteChannelById(long id) throws BadRequestException {
         if(getChannelById(id) != null){
             channelRepository.deleteById(id);
