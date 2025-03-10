@@ -1,6 +1,7 @@
 package com.example.javaspringjpaexam;
 
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,10 @@ public class UserController {
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @DeleteMapping("/{id}/id")
+    public void deleteUserById(@PathVariable  long id) throws BadRequestException {
+        userService.deleteUser(id);
+    }
 
 
 }
