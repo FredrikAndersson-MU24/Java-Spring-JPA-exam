@@ -1,11 +1,11 @@
 package com.example.javaspringjpaexam;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/channels")
@@ -17,7 +17,13 @@ public class ChannelController {
         this.channelService = channelService;
     }
 
-
+    @GetMapping
+    public ResponseEntity<?> getAllChannels() {
+        List<Channel> channels = channelService.getAllChannels();
+        if (!channels.isEmpty()) {
+            return ResponseEntity.ok(channels);
+        } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     @PostMapping
     public ResponseEntity<Channel> createChannel(@RequestBody @Valid Channel newChannel) {
