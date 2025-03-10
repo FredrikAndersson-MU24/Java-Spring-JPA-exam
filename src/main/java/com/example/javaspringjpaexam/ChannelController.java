@@ -12,12 +12,10 @@ import java.util.List;
 @RequestMapping("/channels")
 public class ChannelController {
 
-    private final UserService userService;
-    private ChannelService channelService;
+    private final ChannelService channelService;
 
     public ChannelController(ChannelService channelService, UserService userService) {
         this.channelService = channelService;
-        this.userService = userService;
     }
 
     @GetMapping
