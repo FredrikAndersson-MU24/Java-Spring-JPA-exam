@@ -1,5 +1,9 @@
 package com.example.javaspringjpaexam;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.apache.coyote.BadRequestException;
+import org.hibernate.annotations.NotFound;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,12 +34,18 @@ public class UserService {
         return userRepository.findUsersByNameContainingIgnoreCase(name);
     }
 
-    public User updateUserById(User userToUpdate, Long id) {
+    public User updateUserById(User userToUpdate, long id) {
         return userRepository.findById(id).map(u ->
         {
             u.setName(userToUpdate.getName());
             return userRepository.save(u);
         }).orElse(null);
+    }
+
+    public void deleteUser(long id) throws BadRequestException {
+        if(getUserById(id) != null){
+            userRepository.deleteById(id);
+        } else throw new BadRequestException("User not found");
     }
 
 
