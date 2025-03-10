@@ -17,6 +17,10 @@ public class ChannelService {
         return channelRepository.findAll();
     }
 
+    public Channel getChannelById(long id) {
+        return channelRepository.findById(id).orElse(null);
+    };
+
     public Channel createChannel(Channel newChannel) {
         return channelRepository.save(newChannel);
     }
