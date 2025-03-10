@@ -12,10 +12,12 @@ import java.util.List;
 @RequestMapping("/channels")
 public class ChannelController {
 
+    private final UserService userService;
     private ChannelService channelService;
 
-    public ChannelController(ChannelService channelService) {
+    public ChannelController(ChannelService channelService, UserService userService) {
         this.channelService = channelService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -23,6 +25,14 @@ public class ChannelController {
         List<Channel> channels = channelService.getAllChannels();
         if (!channels.isEmpty()) {
             return ResponseEntity.ok(channels);
+        } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Channel> getChannelById(@PathVariable long id) {
+        Channel channel = channelService.getChannelById(id);
+        if (channel != null) {
+            return ResponseEntity.ok(channel);
         } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
