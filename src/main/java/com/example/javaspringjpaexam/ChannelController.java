@@ -44,6 +44,14 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.createChannel(newChannel));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Channel> updateChannel(@RequestBody @Valid Channel channelToUpdate, @PathVariable long id) {
+        Channel channel = channelService.updateChannelByID(channelToUpdate, id);
+        if (channel != null) {
+            return ResponseEntity.ok(channel);
+        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteChannelById(@PathVariable long id) throws BadRequestException {
         channelService.deleteChannelById(id);
