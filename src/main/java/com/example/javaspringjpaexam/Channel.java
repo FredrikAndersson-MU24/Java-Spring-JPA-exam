@@ -12,7 +12,8 @@ public class Channel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotBlank
-    @Size(min = 6, max = 16, message = "Title must be 6-16 characters")
+    @Size(min = 4, max = 16, message = "Title must be 4-16 characters")
+    @Column(unique = true)
     private String title;
 
     public Channel() {
