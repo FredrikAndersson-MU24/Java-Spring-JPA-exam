@@ -34,6 +34,11 @@ public class ChannelController {
         } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/name/{searchTerm}")
+    public ResponseEntity<List<Channel>> getChannelsByFreeText(@PathVariable String searchTerm) {
+        return ResponseEntity.ok(channelService.getChannelsByFreeText(searchTerm));
+    }
+
     @PostMapping
     public ResponseEntity<Channel> createChannel(@RequestBody @Valid Channel newChannel) {
         return ResponseEntity.ok(channelService.createChannel(newChannel));
