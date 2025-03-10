@@ -3,6 +3,7 @@ package com.example.javaspringjpaexam;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -27,6 +28,14 @@ public class UserService {
 
     public List<User> getUsersByName(String name) {
         return userRepository.findUsersByNameContainingIgnoreCase(name);
+    }
+
+    public User updateUserById(User userToUpdate, Long id) {
+        return userRepository.findById(id).map(u ->
+        {
+            u.setName(userToUpdate.getName());
+            return userRepository.save(u);
+        }).orElse(null);
     }
 
 
