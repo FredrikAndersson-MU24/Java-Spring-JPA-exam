@@ -40,6 +40,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsersByName(name));
     }
 
+    @PutMapping("/{userId}/id")
+    public ResponseEntity<User> updateUserById (@RequestBody @Valid User userToUpdate, @PathVariable long userId) {
+        User user = userService.updateUserById(userToUpdate, userId);
+        if ( user != null){
+            return ResponseEntity.ok(user);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
 
 }
