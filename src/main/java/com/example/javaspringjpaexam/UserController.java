@@ -24,9 +24,11 @@ public class UserController {
         return ResponseEntity.ok(userService.addUser(user));
     }
 
-    @PostMapping("/posts/{userId}")
-    public ResponseEntity<Post> createPostOnUserId(@RequestBody @Valid Post newPost, @PathVariable long userId) {
-        Post post = userService.createPostOnUserId(newPost, userId);
+    @PostMapping("/{userId}/posts/{channelID}")
+    public ResponseEntity<Post> createPostOnUserId(@RequestBody @Valid Post newPost,
+                                                   @PathVariable long userId,
+                                                   @PathVariable long channelID) {
+        Post post = userService.createPostOnUserId(newPost, userId, channelID);
         if ( post != null){
             return ResponseEntity.ok(post);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -51,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsersByName(name));
     }
 
-    @GetMapping("/posts/{userId}")
+    @GetMapping("/{userId}/posts")
     public ResponseEntity<List<Post>> getUsersPosts(@PathVariable long userId) {
         return ResponseEntity.ok(userService.getUsersPosts(userId));
     }

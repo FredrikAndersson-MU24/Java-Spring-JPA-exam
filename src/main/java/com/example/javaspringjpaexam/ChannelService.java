@@ -10,9 +10,11 @@ import java.util.Optional;
 public class ChannelService {
 
     private final ChannelRepository channelRepository;
+    private final PostRepository postRepository;
 
-    public ChannelService(ChannelRepository channelRepository, UserService userService, UserRepository userRepository) {
+    public ChannelService(ChannelRepository channelRepository, UserService userService, UserRepository userRepository, PostRepository postRepository) {
         this.channelRepository = channelRepository;
+        this.postRepository = postRepository;
     }
 
     // Create
@@ -31,6 +33,10 @@ public class ChannelService {
 
     public List<Channel> getChannelsByFreeText(String searchTerm) {
         return channelRepository.findChannelsByNameContainingIgnoreCase(searchTerm);
+    }
+
+    public List<Post> getAllPostsByChannelId(long channelId) {
+        return postRepository.findAllByChannel_Id(channelId);
     }
 
     //Update

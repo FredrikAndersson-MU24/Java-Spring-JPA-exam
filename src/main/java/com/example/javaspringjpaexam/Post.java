@@ -2,6 +2,7 @@ package com.example.javaspringjpaexam;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -24,6 +25,10 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "channel_id")
+    private Channel channel;
 
     public Post() {
     }
@@ -74,5 +79,13 @@ public class Post {
 
     public void setEdited(LocalDate edited) {
         this.edited = edited;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
     }
 }
