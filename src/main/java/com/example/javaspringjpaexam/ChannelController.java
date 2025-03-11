@@ -18,6 +18,14 @@ public class ChannelController {
         this.channelService = channelService;
     }
 
+
+    //Create
+    @PostMapping
+    public ResponseEntity<Channel> createChannel(@RequestBody @Valid Channel newChannel) {
+        return ResponseEntity.ok(channelService.createChannel(newChannel));
+    }
+
+    //Read
     @GetMapping
     public ResponseEntity<?> getAllChannels() {
         List<Channel> channels = channelService.getAllChannels();
@@ -39,11 +47,15 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.getChannelsByFreeText(searchTerm));
     }
 
-    @PostMapping
-    public ResponseEntity<Channel> createChannel(@RequestBody @Valid Channel newChannel) {
-        return ResponseEntity.ok(channelService.createChannel(newChannel));
+    @GetMapping("/{channelId}/posts")
+    public ResponseEntity<List<Post>> getPostsByChannelId (@PathVariable long channelId) {
+        List<Post> posts = channelService.getAllPostsByChannelId(channelId);
+        if (posts != null) {
+            return ResponseEntity.ok(posts);
+        } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    //Update
     @PutMapping("/{id}")
     public ResponseEntity<Channel> updateChannel(@RequestBody @Valid Channel channelToUpdate, @PathVariable long id) {
         Channel channel = channelService.updateChannelByID(channelToUpdate, id);
@@ -52,6 +64,7 @@ public class ChannelController {
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    //Delete
     @DeleteMapping("/{id}")
     public void deleteChannelById(@PathVariable long id) throws BadRequestException {
         channelService.deleteChannelById(id);
