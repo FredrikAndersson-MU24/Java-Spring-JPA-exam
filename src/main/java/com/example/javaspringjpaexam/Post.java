@@ -1,8 +1,11 @@
 package com.example.javaspringjpaexam;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name ="posts")
@@ -14,6 +17,13 @@ public class Post {
     private String title;
     @Size(min = 4, max = 160, message = "The body of the post must be 4-160 characters.")
     private String body;
+    @CreationTimestamp
+    private LocalDate posted;
+    private LocalDate edited;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Post() {
     }
@@ -40,5 +50,29 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LocalDate getPosted() {
+        return posted;
+    }
+
+    public void setPosted(LocalDate posted) {
+        this.posted = posted;
+    }
+
+    public LocalDate getEdited() {
+        return edited;
+    }
+
+    public void setEdited(LocalDate edited) {
+        this.edited = edited;
     }
 }
