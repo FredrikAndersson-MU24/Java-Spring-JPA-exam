@@ -3,6 +3,8 @@ package com.example.javaspringjpaexam;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -12,6 +14,8 @@ public class User {
     private long id;
     @NotBlank
     private String name;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // If a user is deleted, their posts will be deleted
+    private List<Post> posts;
 
     public User() {
     }
@@ -30,5 +34,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }
