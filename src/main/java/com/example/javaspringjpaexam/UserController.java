@@ -53,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsersByName(name));
     }
 
-    @GetMapping("/posts/{userId}")
+    @GetMapping("/{userId}/posts")
     public ResponseEntity<List<Post>> getUsersPosts(@PathVariable long userId) {
         return ResponseEntity.ok(userService.getUsersPosts(userId));
     }
