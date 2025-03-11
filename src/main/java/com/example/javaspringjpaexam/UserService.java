@@ -10,10 +10,12 @@ public class UserService {
 
     private UserRepository userRepository;
     private PostRepository postRepository;
+    private ChannelRepository channelRepository;
 
-    public UserService(UserRepository userRepository, PostRepository postRepository) {
+    public UserService(UserRepository userRepository, PostRepository postRepository, ChannelRepository channelRepository) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.channelRepository = channelRepository;
     }
 
     // Create
@@ -21,10 +23,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Post createPostOnUserId(Post newPost, long userId) {
+    public Post createPostOnUserId(Post newPost, long userId, long channelId) {
+        Channel channel = channelRepository.findById(channelId).orElse(null);
         User user = getUserById(userId);
-        if (user != null) {
+        if (channel != null && user != null) {
             newPost.setUser(user);
+            newPost.setChannel(channel);
             return postRepository.save(newPost);
         }
         return null;
