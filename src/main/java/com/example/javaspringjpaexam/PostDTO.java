@@ -1,22 +1,17 @@
 package com.example.javaspringjpaexam;
 
-
-import java.time.LocalDate;
-
 public class PostDTO {
 
-    private long id;
+    private String postedBy;
     private String title;
     private String body;
-    private LocalDate posted;
-    private LocalDate edited;
 
-    public long getId() {
-        return id;
+    public String getPostedBy() {
+        return postedBy;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setPostedBy(String postedBy) {
+        this.postedBy = postedBy;
     }
 
     public String getTitle() {
@@ -35,19 +30,4 @@ public class PostDTO {
         this.body = body;
     }
 
-    public LocalDate getPosted() {
-        return posted;
-    }
-
-    public void setPosted(LocalDate posted) {
-        this.posted = posted;
-    }
-
-    public LocalDate getEdited() {
-        return edited;
-    }
-
-    public void setEdited(LocalDate edited) {
-        this.edited = edited;
-    }
 }
