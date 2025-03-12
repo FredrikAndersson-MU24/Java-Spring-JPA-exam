@@ -23,8 +23,8 @@ public class ChannelService {
     }
 
     //Read
-    public List<Channel> getAllChannels() {
-        return channelRepository.findAll();
+    public List<ChannelDTO> getAllChannels() {
+        return channelRepository.findAll().stream().map(ChannelMapper.INSTANCE::channelToChannelDTO).collect(Collectors.toList());
     }
 
     public Channel getChannelById(long id) {
