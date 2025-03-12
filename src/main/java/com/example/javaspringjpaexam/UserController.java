@@ -36,20 +36,20 @@ public class UserController {
 
     //Read
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable long id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable long id) {
+        UserDTO user = userService.getUserById(id);
         if ( user != null){
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<User>> getUsersByName(@PathVariable String name) {
+    public ResponseEntity<List<UserDTO>> getUsersByName(@PathVariable String name) {
         return ResponseEntity.ok(userService.getUsersByName(name));
     }
 
@@ -60,8 +60,8 @@ public class UserController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserById (@RequestBody @Valid User userToUpdate, @PathVariable long id) {
-        User user = userService.updateUserById(userToUpdate, id);
+    public ResponseEntity<UserDTO> updateUserById (@RequestBody @Valid User userToUpdate, @PathVariable long id) {
+        UserDTO user = userService.updateUserById(userToUpdate, id);
         if ( user != null){
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
