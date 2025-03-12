@@ -1,13 +1,16 @@
 package com.example.javaspringjpaexam;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Entity
 @Table(name ="posts")
 public class Post {
@@ -23,11 +26,9 @@ public class Post {
     @CreationTimestamp
     private LocalDate posted;
     private LocalDate edited;
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "channel_id")
     private Channel channel;
