@@ -24,14 +24,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public PostDTO createPostOnUserId(Post newPost, long userId, long channelId) {
+    public PostMinimalDTO createPostOnUserId(Post newPost, long userId, long channelId) {
         Channel channel = channelRepository.findById(channelId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
         if (channel != null && user != null) {
             newPost.setUser(user);
             newPost.setChannel(channel);
             postRepository.save(newPost);
-            return PostMapper.INSTANCE.postToPostDTO(newPost);
+            return PostMapper.INSTANCE.postToPostMinimalDTO(newPost);
         }
         return null;
     }
@@ -50,8 +50,9 @@ public class UserService {
         return users.stream().map(UserMapper.INSTANCE::userToUserDTO).collect(Collectors.toList());
     }
 
-    public List<Post> getUsersPosts(long userId) {
-        return postRepository.findAllByUser_Id(userId);
+    public List<PostDetailedDTO> getUsersDetailedPosts(long userId) {
+        List<Post> posts = postRepository.findAllByUser_Id(userId);
+        return posts.stream().map(PostMapper.INSTANCE::postToPostDetailedDTO).collect(Collectors.toList());
     }
 
     //Update
