@@ -20,14 +20,12 @@ public class UserController {
 
     //Create
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody @Valid User user) {
+    public ResponseEntity<UserDTO> addUser(@RequestBody @Valid User user) {
         return ResponseEntity.ok(userService.addUser(user));
     }
 
     @PostMapping("/{userId}/posts/{channelID}")
-    public ResponseEntity<PostMinimalDTO> createPostOnUserId(@RequestBody @Valid Post newPost,
-                                                             @PathVariable long userId,
-                                                             @PathVariable long channelID) {
+    public ResponseEntity<PostMinimalDTO> createPostOnUserId(@RequestBody @Valid Post newPost, @PathVariable long userId, @PathVariable long channelID) {
         PostMinimalDTO post = userService.createPostOnUserId(newPost, userId, channelID);
         if (post != null) {
             return ResponseEntity.ok(post);

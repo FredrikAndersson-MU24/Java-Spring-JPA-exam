@@ -11,12 +11,12 @@ public interface ChannelMapper {
 
     ChannelMapper INSTANCE = Mappers.getMapper(ChannelMapper.class);
 
-    @Mapping(expression = "java(getNumberOfPosts(channel))", target ="postCount")
-    ChannelDTO channelToChannelDTO (Channel channel);
+    @Mapping(expression = "java(getNumberOfPosts(channel))", target = "postCount")
+    ChannelDTO channelToChannelDTO(Channel channel);
 
     default int getNumberOfPosts(Channel channel) {
         List<Post> posts = channel.getPosts();
-        if (posts != null ) {
+        if (posts != null) {
             return posts.size();
         }
         return 0;
