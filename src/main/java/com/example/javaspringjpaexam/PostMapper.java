@@ -9,7 +9,9 @@ public interface PostMapper {
 
     PostMapper INSTANCE = Mappers.getMapper(PostMapper.class);
 
-    @Mapping(target = "posts")
+    @Mapping(source = "user.name", target = "postedBy")
     PostDTO postToPostDTO(Post post);
+
+    Post postDTOToPost(PostDTO postDto);
 
 }
