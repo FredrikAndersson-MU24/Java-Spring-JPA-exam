@@ -14,8 +14,10 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotNull
     @Size(min = 6, max = 32, message = "The post title must be 6-32 characters.")
     private String title;
+    @NotNull
     @Size(min = 4, max = 160, message = "The body of the post must be 4-160 characters.")
     private String body;
     @CreationTimestamp
