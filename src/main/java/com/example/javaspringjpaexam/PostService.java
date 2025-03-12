@@ -16,7 +16,7 @@ public class PostService {
     }
 
     //Create
-    // In UserService since I decided it to be the most logical decision, it's a user entity that creates a post.
+    // In UserService since I decided it was the most logical decision, it's a user entity that creates a post.
 
     //Read
     public List<Post> getAllPosts() {
