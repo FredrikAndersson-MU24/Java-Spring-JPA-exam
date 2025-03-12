@@ -1,6 +1,6 @@
 package com.example.javaspringjpaexam;
 
-public class PostDTO {
+public class PostMinimalDTO {
 
     private String postedBy;
     private String title;
