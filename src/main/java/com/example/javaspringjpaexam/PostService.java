@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -20,6 +21,11 @@ public class PostService {
     //Read
     public List<Post> getAllPosts() {
         return postRepository.findAll();
+    }
+
+    public List<PostDTO> getAllPostDTO() {
+        List<Post> posts = getAllPosts();
+        return posts.stream().map(PostMapper.INSTANCE::postToPostDTO).collect(Collectors.toList());
     }
 
     //Update
