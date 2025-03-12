@@ -32,6 +32,16 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/dto")
+    public ResponseEntity<List<PostDTO>> getAllPostDTO() {
+        List<PostDTO> posts = postService.getAllPostDTO();
+        if (!posts.isEmpty()) {
+            return ResponseEntity.ok(posts);
+
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     //Update
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePostOnPostId(@RequestBody @Valid Post updatedPost, @PathVariable long id) {
