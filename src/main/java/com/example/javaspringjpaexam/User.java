@@ -13,7 +13,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotBlank
+    @NotNull
     private String name;
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // If a user is deleted, their posts will be deleted
