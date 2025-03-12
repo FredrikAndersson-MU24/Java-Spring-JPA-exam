@@ -25,12 +25,12 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/posts/{channelID}")
-    public ResponseEntity<Post> createPostOnUserId(@RequestBody @Valid Post newPost,
+    public ResponseEntity<String> createPostOnUserId(@RequestBody @Valid Post newPost,
                                                    @PathVariable long userId,
                                                    @PathVariable long channelID) {
         Post post = userService.createPostOnUserId(newPost, userId, channelID);
         if ( post != null){
-            return ResponseEntity.ok(post);
+            return ResponseEntity.ok("Post created successfully");
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
