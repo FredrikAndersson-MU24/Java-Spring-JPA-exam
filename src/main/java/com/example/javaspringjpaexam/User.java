@@ -16,7 +16,7 @@ public class User {
     @NotNull
     private String name;
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // If a user is deleted, their posts will be deleted
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
 
     public User() {
