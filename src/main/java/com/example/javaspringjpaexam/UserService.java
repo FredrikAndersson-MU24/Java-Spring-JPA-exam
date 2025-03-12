@@ -4,13 +4,14 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private PostRepository postRepository;
-    private ChannelRepository channelRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final ChannelRepository channelRepository;
 
     public UserService(UserRepository userRepository, PostRepository postRepository, ChannelRepository channelRepository) {
         this.userRepository = userRepository;
@@ -19,44 +20,48 @@ public class UserService {
     }
 
     // Create
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public UserDTO addUser(User user) {
+        return UserMapper.INSTANCE.userToUserDTO(userRepository.save(user));
     }
 
-    public Post createPostOnUserId(Post newPost, long userId, long channelId) {
+    public PostMinimalDTO createPostOnUserId(Post newPost, long userId, long channelId) {
         Channel channel = channelRepository.findById(channelId).orElse(null);
-        User user = getUserById(userId);
+        User user = userRepository.findById(userId).orElse(null);
         if (channel != null && user != null) {
             newPost.setUser(user);
             newPost.setChannel(channel);
-            return postRepository.save(newPost);
+            postRepository.save(newPost);
+            return PostMapper.INSTANCE.postToPostMinimalDTO(newPost);
         }
         return null;
     }
 
     //Read
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream().map(UserMapper.INSTANCE::userToUserDTO).collect(Collectors.toList());
     }
 
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElse(null);
+    public UserDTO getUserById(long id) {
+        return UserMapper.INSTANCE.userToUserDTO(userRepository.findById(id).orElse(null));
     }
 
-    public List<User> getUsersByName(String name) {
-        return userRepository.findUsersByNameContainingIgnoreCase(name);
+    public List<UserDTO> getUsersByName(String name) {
+        List<User> users = userRepository.findUsersByNameContainingIgnoreCase(name);
+        return users.stream().map(UserMapper.INSTANCE::userToUserDTO).collect(Collectors.toList());
     }
 
-    public List<Post> getUsersPosts(long userId) {
-        return postRepository.findAllByUser_Id(userId);
+    public List<PostDetailedDTO> getUsersDetailedPosts(long userId) {
+        List<Post> posts = postRepository.findAllByUser_Id(userId);
+        return posts.stream().map(PostMapper.INSTANCE::postToPostDetailedDTO).collect(Collectors.toList());
     }
 
     //Update
-    public User updateUserById(User userToUpdate, long id) {
-        return userRepository.findById(id).map(u -> {
+    public UserDTO updateUserById(User userToUpdate, long id) {
+        User user = userRepository.findById(id).map(u -> {
             u.setName(userToUpdate.getName());
             return userRepository.save(u);
         }).orElse(null);
+        return UserMapper.INSTANCE.userToUserDTO(user);
     }
 
     //Delete

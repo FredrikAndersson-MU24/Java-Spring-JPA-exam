@@ -1,6 +1,7 @@
 package com.example.javaspringjpaexam;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -8,24 +9,27 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Entity
-@Table(name ="posts")
+@Table(name = "posts")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotNull
     @Size(min = 6, max = 32, message = "The post title must be 6-32 characters.")
     private String title;
+    @NotNull
     @Size(min = 4, max = 160, message = "The body of the post must be 4-160 characters.")
     private String body;
     @CreationTimestamp
     private LocalDate posted;
     private LocalDate edited;
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "channel_id")
     private Channel channel;

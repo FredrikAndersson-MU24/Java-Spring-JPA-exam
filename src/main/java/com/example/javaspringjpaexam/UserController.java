@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -20,58 +20,58 @@ public class UserController {
 
     //Create
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody @Valid User user) {
+    public ResponseEntity<UserDTO> addUser(@RequestBody @Valid User user) {
         return ResponseEntity.ok(userService.addUser(user));
     }
 
     @PostMapping("/{userId}/posts/{channelID}")
-    public ResponseEntity<Post> createPostOnUserId(@RequestBody @Valid Post newPost,
-                                                   @PathVariable long userId,
-                                                   @PathVariable long channelID) {
-        Post post = userService.createPostOnUserId(newPost, userId, channelID);
-        if ( post != null){
+    public ResponseEntity<PostMinimalDTO> createPostOnUserId(@RequestBody @Valid Post newPost, @PathVariable long userId, @PathVariable long channelID) {
+        PostMinimalDTO post = userService.createPostOnUserId(newPost, userId, channelID);
+        if (post != null) {
             return ResponseEntity.ok(post);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Read
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable long id) {
-        User user = userService.getUserById(id);
-        if ( user != null){
+    public ResponseEntity<UserDTO> getUserById(@PathVariable long id) {
+        UserDTO user = userService.getUserById(id);
+        if (user != null) {
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<User>> getUsersByName(@PathVariable String name) {
+    public ResponseEntity<List<UserDTO>> getUsersByName(@PathVariable String name) {
         return ResponseEntity.ok(userService.getUsersByName(name));
     }
 
     @GetMapping("/{userId}/posts")
-    public ResponseEntity<List<Post>> getUsersPosts(@PathVariable long userId) {
-        return ResponseEntity.ok(userService.getUsersPosts(userId));
+    public ResponseEntity<List<PostDetailedDTO>> getUsersPosts(@PathVariable long userId) {
+        List<PostDetailedDTO> posts = userService.getUsersDetailedPosts(userId);
+        if (!posts.isEmpty()) {
+            return ResponseEntity.ok(posts);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserById (@RequestBody @Valid User userToUpdate, @PathVariable long id) {
-        User user = userService.updateUserById(userToUpdate, id);
-        if ( user != null){
+    public ResponseEntity<UserDTO> updateUserById(@RequestBody @Valid User userToUpdate, @PathVariable long id) {
+        UserDTO user = userService.updateUserById(userToUpdate, id);
+        if (user != null) {
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Delete
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable  long id) throws BadRequestException {
+    public void deleteUserById(@PathVariable long id) throws BadRequestException {
         userService.deleteUser(id);
     }
-
 
 }

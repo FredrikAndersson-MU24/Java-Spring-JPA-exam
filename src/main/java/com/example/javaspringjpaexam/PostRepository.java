@@ -12,5 +12,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByChannel_Id(long userId);
 
-
 }

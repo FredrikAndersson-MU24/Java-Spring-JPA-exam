@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/posts")
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -22,9 +22,19 @@ public class PostController {
     // In UserService since I decided it to be the most logical decision, it's a user entity that creates a post.
 
     //Read
+    @GetMapping("/details")
+    public ResponseEntity<List<PostDetailedDTO>> getAllPostDetailedDTO() {
+        List<PostDetailedDTO> posts = postService.getAllPostDetailedDTO();
+        if (!posts.isEmpty()) {
+            return ResponseEntity.ok(posts);
+
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> posts = postService.getAllPosts();
+    public ResponseEntity<List<PostMinimalDTO>> getAllPostMinimalDTO() {
+        List<PostMinimalDTO> posts = postService.getAllPostMinimalDTO();
         if (!posts.isEmpty()) {
             return ResponseEntity.ok(posts);
 
@@ -34,15 +44,15 @@ public class PostController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePostOnPostId(@RequestBody @Valid Post updatedPost, @PathVariable long id) {
-        return ResponseEntity.ok(postService.updatePostOnPostId(updatedPost, id));
+    public ResponseEntity<PostDetailedDTO> updatePostOnPostId(@RequestBody @Valid Post updatedPost, @PathVariable long id) {
+        return ResponseEntity.ok(PostMapper.INSTANCE.postToPostDetailedDTO(postService.updatePostOnPostId(updatedPost, id)));
     }
 
     //Delete
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePostById(@PathVariable long id) {
         boolean exists = postService.deletePostById(id);
-        if ( exists) {
+        if (exists) {
             return ResponseEntity.ok("Deleted!");
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
