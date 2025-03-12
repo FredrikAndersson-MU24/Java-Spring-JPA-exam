@@ -20,8 +20,8 @@ public class UserService {
     }
 
     // Create
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public UserDTO addUser(User user) {
+        return UserMapper.INSTANCE.userToUserDTO(userRepository.save(user));
     }
 
     public PostMinimalDTO createPostOnUserId(Post newPost, long userId, long channelId) {
@@ -57,7 +57,7 @@ public class UserService {
 
     //Update
     public UserDTO updateUserById(User userToUpdate, long id) {
-        User user= userRepository.findById(id).map(u -> {
+        User user = userRepository.findById(id).map(u -> {
             u.setName(userToUpdate.getName());
             return userRepository.save(u);
         }).orElse(null);
