@@ -1,6 +1,6 @@
 package com.example.javaspringjpaexam;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -21,11 +21,11 @@ public class Post {
     @CreationTimestamp
     private LocalDate posted;
     private LocalDate edited;
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "channel_id")
     private Channel channel;

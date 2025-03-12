@@ -1,5 +1,6 @@
 package com.example.javaspringjpaexam;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,6 +18,7 @@ public class Channel {
     @Size(min = 4, max = 16, message = "Channel name must be 4-16 characters")
     @Column(unique = true)
     private String name;
+    @JsonManagedReference
     @OneToMany(mappedBy = "channel")
     private List<Post> posts;
 

@@ -1,5 +1,6 @@
 package com.example.javaspringjpaexam;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -14,6 +15,7 @@ public class User {
     private long id;
     @NotBlank
     private String name;
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // If a user is deleted, their posts will be deleted
     private List<Post> posts;
 
