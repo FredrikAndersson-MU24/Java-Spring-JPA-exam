@@ -24,13 +24,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Post createPostOnUserId(Post newPost, long userId, long channelId) {
+    public PostDTO createPostOnUserId(Post newPost, long userId, long channelId) {
         Channel channel = channelRepository.findById(channelId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
         if (channel != null && user != null) {
             newPost.setUser(user);
             newPost.setChannel(channel);
-            return postRepository.save(newPost);
+            postRepository.save(newPost);
+            return PostMapper.INSTANCE.postToPostDTO(newPost);
         }
         return null;
     }
