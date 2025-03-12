@@ -27,8 +27,8 @@ public class ChannelController {
 
     //Read
     @GetMapping
-    public ResponseEntity<?> getAllChannels() {
-        List<Channel> channels = channelService.getAllChannels();
+    public ResponseEntity<List<ChannelDTO>> getAllChannels() {
+        List<ChannelDTO> channels = channelService.getAllChannels();
         if (!channels.isEmpty()) {
             return ResponseEntity.ok(channels);
         } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
