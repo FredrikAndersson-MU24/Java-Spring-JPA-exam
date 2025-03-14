@@ -3,7 +3,6 @@ package com.example.javaspringjpaexam.controller;
 import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.service.UserService;
 import com.example.javaspringjpaexam.entity.Post;
-import com.example.javaspringjpaexam.entity.User;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import org.apache.coyote.BadRequestException;
@@ -71,7 +70,7 @@ public class UserController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<UserMinimalDTO> updateUserById(@RequestBody @Valid User userToUpdate, @PathVariable long id)  throws ValidationException {
+    public ResponseEntity<UserMinimalDTO> updateUserById(@RequestBody @Valid UserCreationDTO userToUpdate, @PathVariable long id)  throws ValidationException {
         UserMinimalDTO user = userService.updateUserById(userToUpdate, id);
         if (user != null) {
             return ResponseEntity.ok(user);
