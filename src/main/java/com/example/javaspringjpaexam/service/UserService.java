@@ -57,9 +57,16 @@ public class UserService {
     }
 
     public List<UserDTO> getUsersByFreeText(String searchTerm) {
-        List<User> users = userRepository.findUsersByNameContainingIgnoreCase(searchTerm);
+        String query = "%" + searchTerm + "%";
+        List<User> users = userRepository.findUsers(query);
         return users.stream().map(UserMapper.INSTANCE::userToUserDTO).collect(Collectors.toList());
     }
+
+    public List<UserDTO> getUsersByUsername(String searchTerm) {
+        List<User> users = userRepository.findUsersByUsernameContainingIgnoreCase(searchTerm);
+        return users.stream().map(UserMapper.INSTANCE::userToUserDTO).collect(Collectors.toList());
+    }
+
 
     public List<PostDetailedDTO> getUsersDetailedPosts(long userId) {
         List<Post> posts = postRepository.findAllByUser_Id(userId);
