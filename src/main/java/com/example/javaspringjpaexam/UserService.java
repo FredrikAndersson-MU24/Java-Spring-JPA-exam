@@ -45,8 +45,8 @@ public class UserService {
         return UserMapper.INSTANCE.userToUserDTO(userRepository.findById(id).orElse(null));
     }
 
-    public List<UserDTO> getUsersByName(String name) {
-        List<User> users = userRepository.findUsersByNameContainingIgnoreCase(name);
+    public List<UserDTO> getUsersByFreeText(String searchTerm) {
+        List<User> users = userRepository.findUsersByNameContainingIgnoreCase(searchTerm);
         return users.stream().map(UserMapper.INSTANCE::userToUserDTO).collect(Collectors.toList());
     }
 
