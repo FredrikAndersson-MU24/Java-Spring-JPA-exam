@@ -26,7 +26,7 @@ public class UserController {
 
     //Create
     @PostMapping
-    public ResponseEntity<UserDTO> addUser(@RequestBody @Valid User user) {
+    public ResponseEntity<UserMinimalDTO> addUser(@RequestBody @Valid UserCreationDTO user) {
         return ResponseEntity.ok(userService.addUser(user));
     }
 
@@ -40,7 +40,7 @@ public class UserController {
 
     //Read
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<UserMinimalDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
@@ -52,8 +52,8 @@ public class UserController {
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/name/{searchTerm}")
-    public ResponseEntity<List<UserDTO>> getUsersByFreeText(@PathVariable String searchTerm) {
+    @GetMapping("/find/byAll/{searchTerm}")
+    public ResponseEntity<List<UserMinimalDTO>> getUsersByFreeText(@PathVariable String searchTerm) {
         return ResponseEntity.ok(userService.getUsersByFreeText(searchTerm));
     }
 
@@ -67,8 +67,8 @@ public class UserController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUserById(@RequestBody @Valid User userToUpdate, @PathVariable long id) {
-        UserDTO user = userService.updateUserById(userToUpdate, id);
+    public ResponseEntity<UserMinimalDTO> updateUserById(@RequestBody @Valid User userToUpdate, @PathVariable long id)  throws ValidationException {
+        UserMinimalDTO user = userService.updateUserById(userToUpdate, id);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
