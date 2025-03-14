@@ -90,6 +90,13 @@ Syntax for creating a post
 
 
 ### Posts ("/posts")
+Syntax for updating a post
+````json
+{
+  "title": "The title can be 6-32 characters",
+  "body": "This will be the body of the post. It can be a bit longer, 6-160 characters."
+}
+````
 
 | Command | Operation                        | Endpoint   | Restrictions                       | Returns                 |
 |---------|----------------------------------|------------|------------------------------------|-------------------------|
