@@ -1,4 +1,4 @@
-package com.example.javaspringjpaexam;
+package com.example.javaspringjpaexam.dto;
 
 import java.time.LocalDate;
 

@@ -1,5 +1,11 @@
-package com.example.javaspringjpaexam;
+package com.example.javaspringjpaexam.controller;
 
+import com.example.javaspringjpaexam.dto.PostDetailedDTO;
+import com.example.javaspringjpaexam.dto.PostMinimalDTO;
+import com.example.javaspringjpaexam.dto.UserDTO;
+import com.example.javaspringjpaexam.service.UserService;
+import com.example.javaspringjpaexam.entity.Post;
+import com.example.javaspringjpaexam.entity.User;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
