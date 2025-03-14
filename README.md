@@ -23,17 +23,17 @@ orphaned data.
 
 ## Getting started
 
+### Preparing the MySQL database
+Create a MySQL database, for example message_board.
+
 ### Setting up environmental variables
 Set up environmental variables for your database:  
 MYSQL_URL - URL to the database. For example jdbc:mysql://localhost:3306/message_board  
 MYSQL_USERNAME - Your server username  
 MYSQL_PASSWORD - Your server password  
 
-Run the Java-application to let the application create neccessary tables.
+Run the Java-application. It creates the neccessary tables and mock data is preloaded using data.sql.
 
-### Preparing the MySQL database
-(This is optional but preloads the database with some data to have something to start working with)  
-Running the SQL-script in MySQL Workbench to preload mock data.
 ---
 
 ## Interacting with the API
@@ -75,16 +75,16 @@ Syntax for creating a post
 }
 ````
 
-| Command | Operation                                   | Endpoint                      | Restrictions                                                        | Returns          |
-|---------|---------------------------------------------|-------------------------------|---------------------------------------------------------------------|------------------|
-| POST    | Create a new user                           |                               |                                                                     | `UserDTO`        |
-|         | Create a new post on user ID and channel ID | `/{userId}/posts/{channelID}` | Title 6-32 chars, Body 6-160 chars, valid user ID, valid channel ID | `PostMinimalDTO` |
-| GET     | Get all users                               |                               |                                                                     | `List<UserDTO>`  |
-|         | Get a user by ID                            | `/{id}`                       |                                                                     | `UserDTO`        |
-|         | Get a users posts by user ID                | `/{userId}/posts`             |                                                                     | `List<UserDTO>`  |
-|         | Get users by a search query                 | `/name/{searchTerm}`          |                                                                     | `List<UserDTO>`  |
-| PUT     | Update a user by ID                         | `/{id}`                       |                                                                     | `UserDTO`        |
-| DELETE  | Delete a user by ID                         | `/{id}`                       |                                                                     | `void`           |
+| Command | Operation                                   | Endpoint                        | Restrictions                                                        | Returns          |
+|---------|---------------------------------------------|---------------------------------|---------------------------------------------------------------------|------------------|
+| POST    | Create a new user                           |                                 |                                                                     | `UserDTO`        |
+|         | Create a new post on user ID and channel ID | `/{userId}/channel/{channelID}` | Title 6-32 chars, Body 6-160 chars, valid user ID, valid channel ID | `PostMinimalDTO` |
+| GET     | Get all users                               |                                 |                                                                     | `List<UserDTO>`  |
+|         | Get a user by ID                            | `/{id}`                         |                                                                     | `UserDTO`        |
+|         | Get a users posts by user ID                | `/{userId}/posts`               |                                                                     | `List<UserDTO>`  |
+|         | Get users by a search query                 | `/name/{searchTerm}`            |                                                                     | `List<UserDTO>`  |
+| PUT     | Update a user by ID                         | `/{id}`                         |                                                                     | `UserDTO`        |
+| DELETE  | Delete a user by ID                         | `/{id}`                         |                                                                     | `void`           |
 
 
 ### Posts ("/posts")
