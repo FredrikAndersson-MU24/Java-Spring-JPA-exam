@@ -3,7 +3,8 @@
 ## Assignment in short
 Build an API for a forum/message board service.
 The client should be able to perform CRUD-operations and the data should be stored persistently using JPA.
-- [Assignment in full(in swedish)](https://docs.google.com/document/d/1iW2rs-U7Hc4sxsPhKNWb4A_8MLo-i8MYQ0Kn1zClKDA/edit?usp=sharing)
+- [Assignment in full (swedish)](https://docs.google.com/document/d/1iW2rs-U7Hc4sxsPhKNWb4A_8MLo-i8MYQ0Kn1zClKDA/edit?usp=sharing)
+
 ---
 
 ## Project description
@@ -19,6 +20,7 @@ The client can create, read, update and delete data. There are three different e
 The client can create channels and users. They can then create posts that relate to a user and a channel.  
 If a user or channel is deleted all their related posts are deleted through the use of cascading, minimizing the risk of
 orphaned data.
+
 ---
 
 ## Getting started
@@ -97,11 +99,14 @@ Syntax for creating a post
 | DELETE  | Delete a single post by ID       | `/{id}`    |                                    | `void`                  |
 
 ---
+
 ## Project documentation
 - [Jira board  ](https://fredande.atlassian.net/jira/software/projects/JSJE/boards/4)
 - [UML diagram on Lucid](https://lucid.app/lucidchart/5b5c5dbb-9a6d-4e08-8056-e7ad4ee5ecbd/edit?viewport_loc=-818%2C-874%2C5098%2C2864%2CHWEp-vi-RSFO&invitationId=inv_53fa96bc-78f0-4c3c-9c04-a78bc610d52f)
 - [Entity Relationship Diagram(ERD) on Lucid](https://lucid.app/lucidspark/5dfd1bc5-ff0f-4def-931f-bf4ee588e0fb/edit?viewport_loc=-1383%2C-304%2C1501%2C879%2C0_0&invitationId=inv_d5ed5517-53ee-4ce6-a2ac-6ea2b64925c8)
+
 ---
+
 ## Abilities used for this assignment
 ### Technical
 - Java
