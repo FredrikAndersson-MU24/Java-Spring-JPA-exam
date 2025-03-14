@@ -24,7 +24,7 @@ public class UserController {
         return ResponseEntity.ok(userService.addUser(user));
     }
 
-    @PostMapping("/{userId}/posts/{channelID}")
+    @PostMapping("/{userId}/channel/{channelID}")
     public ResponseEntity<PostMinimalDTO> createPostOnUserId(@RequestBody @Valid Post newPost, @PathVariable long userId, @PathVariable long channelID) {
         PostMinimalDTO post = userService.createPostOnUserId(newPost, userId, channelID);
         if (post != null) {
@@ -46,9 +46,9 @@ public class UserController {
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<List<UserDTO>> getUsersByName(@PathVariable String name) {
-        return ResponseEntity.ok(userService.getUsersByName(name));
+    @GetMapping("/name/{searchTerm}")
+    public ResponseEntity<List<UserDTO>> getUsersByFreeText(@PathVariable String searchTerm) {
+        return ResponseEntity.ok(userService.getUsersByFreeText(searchTerm));
     }
 
     @GetMapping("/{userId}/posts")
