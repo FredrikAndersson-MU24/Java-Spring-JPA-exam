@@ -39,14 +39,15 @@ public class UserService {
 
     }
 
-    public PostMinimalDTO createPostOnUserId(Post newPost, long userId, long channelId) {
+    public PostMinimalDTO createPostOnUserId(PostCreationDTO newPost, long userId, long channelId) {
         Channel channel = channelRepository.findById(channelId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
         if (channel != null && user != null) {
-            newPost.setUser(user);
-            newPost.setChannel(channel);
-            postRepository.save(newPost);
-            return PostMapper.INSTANCE.postToPostMinimalDTO(newPost);
+            Post post = PostMapper.INSTANCE.postCreationDTOToPost(newPost);
+            post.setUser(user);
+            post.setChannel(channel);
+            postRepository.save(post);
+            return PostMapper.INSTANCE.postToPostMinimalDTO(post);
         }
         return null;
     }

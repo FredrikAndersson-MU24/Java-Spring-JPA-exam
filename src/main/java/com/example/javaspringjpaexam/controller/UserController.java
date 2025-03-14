@@ -2,7 +2,6 @@ package com.example.javaspringjpaexam.controller;
 
 import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.service.UserService;
-import com.example.javaspringjpaexam.entity.Post;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import org.apache.coyote.BadRequestException;
@@ -29,7 +28,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/channel/{channelID}")
-    public ResponseEntity<PostMinimalDTO> createPostOnUserId(@RequestBody @Valid Post newPost, @PathVariable long userId, @PathVariable long channelID) {
+    public ResponseEntity<PostMinimalDTO> createPostOnUserId(@RequestBody @Valid PostCreationDTO newPost, @PathVariable long userId, @PathVariable long channelID) {
         PostMinimalDTO post = userService.createPostOnUserId(newPost, userId, channelID);
         if (post != null) {
             return ResponseEntity.ok(post);

@@ -1,10 +1,9 @@
 package com.example.javaspringjpaexam.controller;
 
+import com.example.javaspringjpaexam.dto.PostCreationDTO;
 import com.example.javaspringjpaexam.dto.PostDetailedDTO;
-import com.example.javaspringjpaexam.mapper.PostMapper;
 import com.example.javaspringjpaexam.dto.PostMinimalDTO;
 import com.example.javaspringjpaexam.service.PostService;
-import com.example.javaspringjpaexam.entity.Post;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,8 +48,8 @@ public class PostController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<PostDetailedDTO> updatePostOnPostId(@RequestBody @Valid Post updatedPost, @PathVariable long id) {
-        return ResponseEntity.ok(PostMapper.INSTANCE.postToPostDetailedDTO(postService.updatePostOnPostId(updatedPost, id)));
+    public ResponseEntity<PostDetailedDTO> updatePostOnPostId(@RequestBody @Valid PostCreationDTO updatedPost, @PathVariable long id) {
+        return ResponseEntity.ok(postService.updatePostOnPostId(updatedPost, id));
     }
 
     //Delete

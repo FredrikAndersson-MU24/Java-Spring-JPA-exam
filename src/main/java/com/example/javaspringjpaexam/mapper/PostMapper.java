@@ -1,5 +1,6 @@
 package com.example.javaspringjpaexam.mapper;
 
+import com.example.javaspringjpaexam.dto.PostCreationDTO;
 import com.example.javaspringjpaexam.dto.PostDetailedDTO;
 import com.example.javaspringjpaexam.dto.PostMinimalDTO;
 import com.example.javaspringjpaexam.entity.Post;
@@ -18,6 +19,6 @@ public interface PostMapper {
     @Mapping(source = "user.username", target = "postedBy")
     PostDetailedDTO postToPostDetailedDTO(Post post);
 
-    Post postDTOToPost(PostMinimalDTO postMinimalDto);
+    Post postCreationDTOToPost(PostCreationDTO postCreationDTO);
 
 }
