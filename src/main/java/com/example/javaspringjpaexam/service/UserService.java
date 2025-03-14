@@ -40,16 +40,19 @@ public class UserService {
     }
 
     public PostMinimalDTO createPostOnUserId(PostCreationDTO newPost, long userId, long channelId) {
-        Channel channel = channelRepository.findById(channelId).orElse(null);
-        User user = userRepository.findById(userId).orElse(null);
-        if (channel != null && user != null) {
-            Post post = PostMapper.INSTANCE.postCreationDTOToPost(newPost);
-            post.setUser(user);
-            post.setChannel(channel);
-            postRepository.save(post);
-            return PostMapper.INSTANCE.postToPostMinimalDTO(post);
-        }
-        return null;
+        boolean titleExists = postRepository.existsByTitleIgnoreCase(newPost.getTitle());
+        if (!titleExists) {
+            Channel channel = channelRepository.findById(channelId).orElse(null);
+            User user = userRepository.findById(userId).orElse(null);
+            if (channel != null && user != null) {
+                Post post = PostMapper.INSTANCE.postCreationDTOToPost(newPost);
+                post.setUser(user);
+                post.setChannel(channel);
+                postRepository.save(post);
+                return PostMapper.INSTANCE.postToPostMinimalDTO(post);
+            }
+            return null;
+        } else throw new DuplicateKeyException("Title already exists");
     }
 
     //Read
