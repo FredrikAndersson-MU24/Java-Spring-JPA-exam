@@ -1,8 +1,6 @@
 package com.example.javaspringjpaexam.controller;
 
-import com.example.javaspringjpaexam.dto.PostDetailedDTO;
-import com.example.javaspringjpaexam.dto.PostMinimalDTO;
-import com.example.javaspringjpaexam.dto.UserDTO;
+import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.service.UserService;
 import com.example.javaspringjpaexam.entity.Post;
 import com.example.javaspringjpaexam.entity.User;
@@ -55,6 +53,11 @@ public class UserController {
     @GetMapping("/find/byAll/{searchTerm}")
     public ResponseEntity<List<UserMinimalDTO>> getUsersByFreeText(@PathVariable String searchTerm) {
         return ResponseEntity.ok(userService.getUsersByFreeText(searchTerm));
+    }
+
+    @GetMapping("/find/byUsername/{searchTerm}")
+    public ResponseEntity<List<UserMinimalDTO>> getUsersByUsername(@PathVariable String searchTerm) {
+        return ResponseEntity.ok(userService.getUsersByUsername(searchTerm));
     }
 
     @GetMapping("/{userId}/posts")
