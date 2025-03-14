@@ -1,5 +1,10 @@
-package com.example.javaspringjpaexam;
+package com.example.javaspringjpaexam.service;
 
+import com.example.javaspringjpaexam.dto.PostDetailedDTO;
+import com.example.javaspringjpaexam.dto.PostMinimalDTO;
+import com.example.javaspringjpaexam.entity.Post;
+import com.example.javaspringjpaexam.mapper.PostMapper;
+import com.example.javaspringjpaexam.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package com.example.javaspringjpaexam;
+package com.example.javaspringjpaexam.dto;
 
 public class PostMinimalDTO {
 

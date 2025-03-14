@@ -1,5 +1,16 @@
-package com.example.javaspringjpaexam;
+package com.example.javaspringjpaexam.service;
 
+import com.example.javaspringjpaexam.dto.PostDetailedDTO;
+import com.example.javaspringjpaexam.dto.PostMinimalDTO;
+import com.example.javaspringjpaexam.dto.UserDTO;
+import com.example.javaspringjpaexam.entity.Channel;
+import com.example.javaspringjpaexam.entity.Post;
+import com.example.javaspringjpaexam.entity.User;
+import com.example.javaspringjpaexam.mapper.PostMapper;
+import com.example.javaspringjpaexam.mapper.UserMapper;
+import com.example.javaspringjpaexam.repository.ChannelRepository;
+import com.example.javaspringjpaexam.repository.PostRepository;
+import com.example.javaspringjpaexam.repository.UserRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 

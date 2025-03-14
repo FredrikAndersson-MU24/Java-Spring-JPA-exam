@@ -1,5 +1,9 @@
-package com.example.javaspringjpaexam;
+package com.example.javaspringjpaexam.controller;
 
+import com.example.javaspringjpaexam.dto.ChannelDTO;
+import com.example.javaspringjpaexam.service.ChannelService;
+import com.example.javaspringjpaexam.dto.PostMinimalDTO;
+import com.example.javaspringjpaexam.entity.Channel;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.example.javaspringjpaexam;
+package com.example.javaspringjpaexam.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

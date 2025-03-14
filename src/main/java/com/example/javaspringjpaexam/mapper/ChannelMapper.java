@@ -1,5 +1,8 @@
-package com.example.javaspringjpaexam;
+package com.example.javaspringjpaexam.mapper;
 
+import com.example.javaspringjpaexam.dto.ChannelDTO;
+import com.example.javaspringjpaexam.entity.Channel;
+import com.example.javaspringjpaexam.entity.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
