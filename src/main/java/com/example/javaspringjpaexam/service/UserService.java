@@ -31,7 +31,7 @@ public class UserService {
 
     // Create
     public UserMinimalDTO addUser(UserCreationDTO newUser) {
-        boolean exists = userRepository.existsByUsername(newUser.getUsername());
+        boolean exists = userRepository.existsByUsernameIgnoreCase(newUser.getUsername());
         if (!exists) {
             User user = UserMapper.INSTANCE.userCreationDTOToUser(newUser);
             return UserMapper.INSTANCE.userToUserMinimalDTO(userRepository.save(user));
@@ -78,14 +78,17 @@ public class UserService {
     }
 
     //Update
-    public UserMinimalDTO updateUserById(User userToUpdate, long id) {
-        User user = userRepository.findById(id).map(u -> {
-            u.setUsername(userToUpdate.getUsername());
-            u.setFirstName(userToUpdate.getFirstName());
-            u.setLastName(userToUpdate.getLastName());
-            return userRepository.save(u);
-        }).orElse(null);
-        return UserMapper.INSTANCE.userToUserMinimalDTO(user);
+    public UserMinimalDTO updateUserById(UserCreationDTO userToUpdate, long id) {
+        boolean exists = userRepository.existsByUsernameIgnoreCase(userToUpdate.getUsername());
+        if (!exists) {
+            User user = userRepository.findById(id).map(u -> {
+                u.setUsername(userToUpdate.getUsername());
+                u.setFirstName(userToUpdate.getFirstName());
+                u.setLastName(userToUpdate.getLastName());
+                return userRepository.save(u);
+            }).orElse(null);
+            return UserMapper.INSTANCE.userToUserMinimalDTO(user);
+        } else throw new DuplicateKeyException("Username already exists");
     }
 
     //Delete
