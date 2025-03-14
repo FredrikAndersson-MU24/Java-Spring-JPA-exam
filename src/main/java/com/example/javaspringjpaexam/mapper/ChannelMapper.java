@@ -1,5 +1,6 @@
 package com.example.javaspringjpaexam.mapper;
 
+import com.example.javaspringjpaexam.dto.ChannelCreationDTO;
 import com.example.javaspringjpaexam.dto.ChannelDTO;
 import com.example.javaspringjpaexam.entity.Channel;
 import com.example.javaspringjpaexam.entity.Post;
@@ -24,5 +25,7 @@ public interface ChannelMapper {
         }
         return 0;
     }
+
+    Channel channelCreationDTOToChannel(ChannelCreationDTO channelCreationDTO);
 
 }

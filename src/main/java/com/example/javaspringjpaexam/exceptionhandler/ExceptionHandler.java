@@ -1,5 +1,6 @@
 package com.example.javaspringjpaexam.exceptionhandler;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,13 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(DuplicateKeyException.class)
     public String handleDuplicateKey(DuplicateKeyException e) {
         return e.getMessage();
+    }
+
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @org.springframework.web.bind.annotation.ExceptionHandler(EntityNotFoundException.class)
+    public String handleEntityNotFound(EntityNotFoundException exception) {
+        return exception.getMessage();
     }
 
 }
