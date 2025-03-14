@@ -1,8 +1,6 @@
 package com.example.javaspringjpaexam.service;
 
-import com.example.javaspringjpaexam.dto.PostDetailedDTO;
-import com.example.javaspringjpaexam.dto.PostMinimalDTO;
-import com.example.javaspringjpaexam.dto.UserDTO;
+import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.entity.Channel;
 import com.example.javaspringjpaexam.entity.Post;
 import com.example.javaspringjpaexam.entity.User;
@@ -12,6 +10,7 @@ import com.example.javaspringjpaexam.repository.ChannelRepository;
 import com.example.javaspringjpaexam.repository.PostRepository;
 import com.example.javaspringjpaexam.repository.UserRepository;
 import org.apache.coyote.BadRequestException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +30,13 @@ public class UserService {
     }
 
     // Create
-    public UserDTO addUser(User user) {
-        return UserMapper.INSTANCE.userToUserDTO(userRepository.save(user));
+    public UserMinimalDTO addUser(UserCreationDTO newUser) {
+        boolean exists = userRepository.existsByUsernameIgnoreCase(newUser.getUsername());
+        if (!exists) {
+            User user = UserMapper.INSTANCE.userCreationDTOToUser(newUser);
+            return UserMapper.INSTANCE.userToUserMinimalDTO(userRepository.save(user));
+        } else throw new DuplicateKeyException("Username already exists");
+
     }
 
     public PostMinimalDTO createPostOnUserId(Post newPost, long userId, long channelId) {
@@ -48,18 +52,25 @@ public class UserService {
     }
 
     //Read
-    public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(UserMapper.INSTANCE::userToUserDTO).collect(Collectors.toList());
+    public List<UserMinimalDTO> getAllUsers() {
+        return userRepository.findAll().stream().map(UserMapper.INSTANCE::userToUserMinimalDTO).collect(Collectors.toList());
     }
 
-    public UserDTO getUserById(long id) {
-        return UserMapper.INSTANCE.userToUserDTO(userRepository.findById(id).orElse(null));
+    public UserDetailedDTO getUserById(long id) {
+        return UserMapper.INSTANCE.userToUserDetailedDTO(userRepository.findById(id).orElse(null));
     }
 
-    public List<UserDTO> getUsersByFreeText(String searchTerm) {
-        List<User> users = userRepository.findUsersByNameContainingIgnoreCase(searchTerm);
-        return users.stream().map(UserMapper.INSTANCE::userToUserDTO).collect(Collectors.toList());
+    public List<UserMinimalDTO> getUsersByFreeText(String searchTerm) {
+        String query = "%" + searchTerm + "%";
+        List<User> users = userRepository.findUsers(query);
+        return users.stream().map(UserMapper.INSTANCE::userToUserMinimalDTO).collect(Collectors.toList());
     }
+
+    public List<UserMinimalDTO> getUsersByUsername(String searchTerm) {
+        List<User> users = userRepository.findUsersByUsernameContainingIgnoreCase(searchTerm);
+        return users.stream().map(UserMapper.INSTANCE::userToUserMinimalDTO).collect(Collectors.toList());
+    }
+
 
     public List<PostDetailedDTO> getUsersDetailedPosts(long userId) {
         List<Post> posts = postRepository.findAllByUser_Id(userId);
@@ -67,12 +78,17 @@ public class UserService {
     }
 
     //Update
-    public UserDTO updateUserById(User userToUpdate, long id) {
-        User user = userRepository.findById(id).map(u -> {
-            u.setName(userToUpdate.getName());
-            return userRepository.save(u);
-        }).orElse(null);
-        return UserMapper.INSTANCE.userToUserDTO(user);
+    public UserMinimalDTO updateUserById(UserCreationDTO userToUpdate, long id) {
+        boolean exists = userRepository.existsByUsernameIgnoreCase(userToUpdate.getUsername());
+        if (!exists) {
+            User user = userRepository.findById(id).map(u -> {
+                u.setUsername(userToUpdate.getUsername());
+                u.setFirstName(userToUpdate.getFirstName());
+                u.setLastName(userToUpdate.getLastName());
+                return userRepository.save(u);
+            }).orElse(null);
+            return UserMapper.INSTANCE.userToUserMinimalDTO(user);
+        } else throw new DuplicateKeyException("Username already exists");
     }
 
     //Delete

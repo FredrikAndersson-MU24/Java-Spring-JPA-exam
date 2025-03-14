@@ -45,7 +45,7 @@ public class ChannelController {
         } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/name/{searchTerm}")
+    @GetMapping("/find/byName/{searchTerm}")
     public ResponseEntity<List<ChannelDTO>> getChannelsByFreeText(@PathVariable String searchTerm) {
         return ResponseEntity.ok(channelService.getChannelsByFreeText(searchTerm));
     }

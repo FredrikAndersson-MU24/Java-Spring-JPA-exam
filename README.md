@@ -52,21 +52,23 @@ Syntax for creating/updating a channel
 }
 ````
 
-| Command | Operation                                | Endpoint             | Restrictions    | Returns                |
-|---------|------------------------------------------|----------------------|-----------------|------------------------|
-| POST    | Create a new channel                     |                      | 4-16 characters | `ChannelDTO`           |
-| GET     | Get all channels                         |                      |                 | `List<ChannelDTO>`     |
-|         | Get a channel by ID                      | `/{id}`              |                 | `ChannelDTO`           |
-|         | Get all posts in a channel by channel ID | `/{channelId}/posts` |                 | `List<PostMinimalDTO>` |
-|         | Get channels by a search query           | `/name/{searchTerm}` |                 | `List<ChannelDTO>`     |
-| PUT     | Update a channel by ID                   | `/{id}`              | 4-16 characters | `ChannelDTO`           |
-| DELETE  | Delete a channel by ID                   | `/{id}`              |                 | `void`                 |
+| Command | Operation                                | Endpoint                    | Restrictions    | Returns                |
+|---------|------------------------------------------|-----------------------------|-----------------|------------------------|
+| POST    | Create a new channel                     |                             | 4-16 characters | `ChannelDTO`           |
+| GET     | Get all channels                         |                             |                 | `List<ChannelDTO>`     |
+|         | Get a channel by ID                      | `/{id}`                     |                 | `ChannelDTO`           |
+|         | Get all posts in a channel by channel ID | `/{channelId}/posts`        |                 | `List<PostMinimalDTO>` |
+|         | Get channels by a search query           | `/find/byName/{searchTerm}` |                 | `List<ChannelDTO>`     |
+| PUT     | Update a channel by ID                   | `/{id}`                     | 4-16 characters | `ChannelDTO`           |
+| DELETE  | Delete a channel by ID                   | `/{id}`                     |                 | `void`                 |
 
 ### Users ("/users")
 Syntax for creating/updating a user
 ````json
 {
-   "name": "{name}"
+   "username": "{name, max 32 chars}",
+   "firstName": "{firstName, max 32 chars}",
+   "lastName": "{lastName, max 32 chars}"
 }
 ````
 Syntax for creating a post
@@ -77,16 +79,17 @@ Syntax for creating a post
 }
 ````
 
-| Command | Operation                                   | Endpoint                        | Restrictions                                                        | Returns          |
-|---------|---------------------------------------------|---------------------------------|---------------------------------------------------------------------|------------------|
-| POST    | Create a new user                           |                                 |                                                                     | `UserDTO`        |
-|         | Create a new post on user ID and channel ID | `/{userId}/channel/{channelID}` | Title 6-32 chars, Body 6-160 chars, valid user ID, valid channel ID | `PostMinimalDTO` |
-| GET     | Get all users                               |                                 |                                                                     | `List<UserDTO>`  |
-|         | Get a user by ID                            | `/{id}`                         |                                                                     | `UserDTO`        |
-|         | Get a users posts by user ID                | `/{userId}/posts`               |                                                                     | `List<UserDTO>`  |
-|         | Get users by a search query                 | `/name/{searchTerm}`            |                                                                     | `List<UserDTO>`  |
-| PUT     | Update a user by ID                         | `/{id}`                         |                                                                     | `UserDTO`        |
-| DELETE  | Delete a user by ID                         | `/{id}`                         |                                                                     | `void`           |
+| Command | Operation                                   | Endpoint                        | Restrictions                                                        | Returns                 |
+|---------|---------------------------------------------|---------------------------------|---------------------------------------------------------------------|-------------------------|
+| POST    | Create a new user                           |                                 | Username must be unique, no null values                             | `UserMinimalDTO`        |
+|         | Create a new post on userID and channelID   | `/{userId}/channel/{channelID}` | Title 6-32 chars, Body 6-160 chars, valid user ID, valid channel ID | `PostMinimalDTO`        |
+| GET     | Get all users                               |                                 |                                                                     | `List<UserMinimalDTO>`  |
+|         | Find a user by ID                           | `/{id}`                         |                                                                     | `UserDetailedDTO`       |
+|         | Find a users posts by user ID               | `/{userId}/posts`               |                                                                     | `List<PostDetailedDTO>` |
+|         | Find users by username                      | `/find/byUsername/{searchTerm}` |                                                                     | `List<UserMinimalDTO>`  |
+|         | Find users by username, first and last name | `/find/byAll/{searchTerm}`      |                                                                     | `List<UserMinimalDTO>`  |
+| PUT     | Update a user by ID                         | `/{id}`                         | Username must be unique, no null values                             | `UserMinimalDTO`        |
+| DELETE  | Delete a user by ID                         | `/{id}`                         |                                                                     | `void`                  |
 
 
 ### Posts ("/posts")

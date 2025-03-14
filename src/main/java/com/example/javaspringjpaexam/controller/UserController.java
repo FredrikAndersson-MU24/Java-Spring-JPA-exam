@@ -1,12 +1,10 @@
 package com.example.javaspringjpaexam.controller;
 
-import com.example.javaspringjpaexam.dto.PostDetailedDTO;
-import com.example.javaspringjpaexam.dto.PostMinimalDTO;
-import com.example.javaspringjpaexam.dto.UserDTO;
+import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.service.UserService;
 import com.example.javaspringjpaexam.entity.Post;
-import com.example.javaspringjpaexam.entity.User;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +24,7 @@ public class UserController {
 
     //Create
     @PostMapping
-    public ResponseEntity<UserDTO> addUser(@RequestBody @Valid User user) {
+    public ResponseEntity<UserMinimalDTO> addUser(@RequestBody @Valid UserCreationDTO user) {
         return ResponseEntity.ok(userService.addUser(user));
     }
 
@@ -40,21 +38,26 @@ public class UserController {
 
     //Read
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<UserMinimalDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable long id) {
-        UserDTO user = userService.getUserById(id);
+    public ResponseEntity<UserDetailedDTO> getUserById(@PathVariable long id) {
+        UserDetailedDTO user = userService.getUserById(id);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/name/{searchTerm}")
-    public ResponseEntity<List<UserDTO>> getUsersByFreeText(@PathVariable String searchTerm) {
+    @GetMapping("/find/byAll/{searchTerm}")
+    public ResponseEntity<List<UserMinimalDTO>> getUsersByFreeText(@PathVariable String searchTerm) {
         return ResponseEntity.ok(userService.getUsersByFreeText(searchTerm));
+    }
+
+    @GetMapping("/find/byUsername/{searchTerm}")
+    public ResponseEntity<List<UserMinimalDTO>> getUsersByUsername(@PathVariable String searchTerm) {
+        return ResponseEntity.ok(userService.getUsersByUsername(searchTerm));
     }
 
     @GetMapping("/{userId}/posts")
@@ -67,8 +70,8 @@ public class UserController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUserById(@RequestBody @Valid User userToUpdate, @PathVariable long id) {
-        UserDTO user = userService.updateUserById(userToUpdate, id);
+    public ResponseEntity<UserMinimalDTO> updateUserById(@RequestBody @Valid UserCreationDTO userToUpdate, @PathVariable long id)  throws ValidationException {
+        UserMinimalDTO user = userService.updateUserById(userToUpdate, id);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);

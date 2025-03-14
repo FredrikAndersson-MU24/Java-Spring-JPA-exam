@@ -9,7 +9,6 @@ import com.example.javaspringjpaexam.mapper.ChannelMapper;
 import com.example.javaspringjpaexam.mapper.PostMapper;
 import com.example.javaspringjpaexam.repository.ChannelRepository;
 import com.example.javaspringjpaexam.repository.PostRepository;
-import com.example.javaspringjpaexam.repository.UserRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class ChannelService {
     private final ChannelRepository channelRepository;
     private final PostRepository postRepository;
 
-    public ChannelService(ChannelRepository channelRepository, UserService userService, UserRepository userRepository, PostRepository postRepository) {
+    public ChannelService(ChannelRepository channelRepository, PostRepository postRepository) {
         this.channelRepository = channelRepository;
         this.postRepository = postRepository;
     }
