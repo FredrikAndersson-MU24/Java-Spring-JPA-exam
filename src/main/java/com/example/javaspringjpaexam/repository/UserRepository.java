@@ -21,5 +21,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUsers(@Param("query") String query);
 
 
-    boolean existsByUsername(@NotNull @Size(max = 32, message ="Username can be max 32 chars") String username);
+    boolean existsByUsernameIgnoreCase(@NotNull @Size(max = 32, message ="Username can be max 32 chars") String username);
 }
