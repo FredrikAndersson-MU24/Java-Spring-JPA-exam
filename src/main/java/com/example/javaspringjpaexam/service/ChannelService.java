@@ -73,9 +73,9 @@ public class ChannelService {
     }
 
     //Delete
-    public void deleteChannelById(long id) throws BadRequestException {
+    public void deleteChannelById(long id) {
         if (getChannelById(id) != null) {
             channelRepository.deleteById(id);
-        } else throw new BadRequestException("Channel not found");
+        } else throw new EntityNotFoundException("Channel ID not found");
     }
 }

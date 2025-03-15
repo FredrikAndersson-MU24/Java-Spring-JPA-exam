@@ -4,7 +4,6 @@ import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/find/byAll/{searchTerm}")
-    public ResponseEntity<List<UserMinimalDTO>> getUsersByFreeText(@PathVariable String searchTerm) {
+    public ResponseEntity<List<UserDetailedDTO>> getUsersByFreeText(@PathVariable String searchTerm) {
         return ResponseEntity.ok(userService.getUsersByFreeText(searchTerm));
     }
 
@@ -78,7 +77,7 @@ public class UserController {
 
     //Delete
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable long id) throws BadRequestException {
+    public void deleteUserById(@PathVariable long id) {
         userService.deleteUser(id);
     }
 

@@ -9,7 +9,7 @@ import com.example.javaspringjpaexam.mapper.UserMapper;
 import com.example.javaspringjpaexam.repository.ChannelRepository;
 import com.example.javaspringjpaexam.repository.PostRepository;
 import com.example.javaspringjpaexam.repository.UserRepository;
-import org.apache.coyote.BadRequestException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -64,10 +64,10 @@ public class UserService {
         return UserMapper.INSTANCE.userToUserDetailedDTO(userRepository.findById(id).orElse(null));
     }
 
-    public List<UserMinimalDTO> getUsersByFreeText(String searchTerm) {
+    public List<UserDetailedDTO> getUsersByFreeText(String searchTerm) {
         String query = "%" + searchTerm + "%";
         List<User> users = userRepository.findUsers(query);
-        return users.stream().map(UserMapper.INSTANCE::userToUserMinimalDTO).collect(Collectors.toList());
+        return users.stream().map(UserMapper.INSTANCE::userToUserDetailedDTO).collect(Collectors.toList());
     }
 
     public List<UserMinimalDTO> getUsersByUsername(String searchTerm) {
@@ -96,9 +96,9 @@ public class UserService {
     }
 
     //Delete
-    public void deleteUser(long id) throws BadRequestException {
+    public void deleteUser(long id) {
         if (getUserById(id) != null) {
             userRepository.deleteById(id);
-        } else throw new BadRequestException("User not found");
+        } else throw new EntityNotFoundException("User ID not found");
     }
 }

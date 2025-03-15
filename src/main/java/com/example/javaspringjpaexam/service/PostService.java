@@ -4,6 +4,7 @@ import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.entity.Post;
 import com.example.javaspringjpaexam.mapper.PostMapper;
 import com.example.javaspringjpaexam.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -53,12 +54,11 @@ public class PostService {
     }
 
     //Delete
-    public boolean deletePostById(long id) {
+    public void deletePostById(long id) {
         boolean exists = postRepository.existsById(id);
         if (exists) {
             postRepository.deleteById(id);
-        }
-        return exists;
+        }        else throw new EntityNotFoundException("Post ID not found");
     }
 
 }

@@ -54,12 +54,8 @@ public class PostController {
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePostById(@PathVariable long id) {
-        boolean exists = postService.deletePostById(id);
-        if (exists) {
-            return ResponseEntity.ok("Deleted!");
-        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    public void deletePostById(@PathVariable long id) {
+        postService.deletePostById(id);
     }
 
 }
