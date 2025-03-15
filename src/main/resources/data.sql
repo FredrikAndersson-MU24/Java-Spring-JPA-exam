@@ -1,5 +1,6 @@
+INSERT IGNORE INTO users (username, first_name, last_name) VALUES('St3v3', 'Steven', 'Crafter'), ('A13x','Alex', 'Builder'), ('zumba','Zombie', 'NoBrain'), ('AngryFarmer', 'Creeper', 'Beeper'), ('Ryder','Chicken', 'Jockey');
 
-INSERT IGNORE INTO users (username, first_name, last_name) VALUES('St3v3', 'Steven', 'Crafter'), ('A13x','Alex', 'Builder'), ('zumba','Zombie', 'NoBrain'), ('AngryFarmer', 'Creeper', 'Beeper'), ('Ryder','Chicken', 'Jockey');INSERT IGNORE INTO channels (name) VALUES('Mining'), ('Crafting'), ('Fighting'), ('Farming'), ('Animals');
+INSERT IGNORE INTO channels (name) VALUES('Mining'), ('Crafting'), ('Fighting'), ('Farming'), ('Animals');
 
 INSERT IGNORE INTO posts (title, body, posted, channel_id, user_id)
 VALUES
