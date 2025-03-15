@@ -40,7 +40,7 @@ public class UserService {
     }
 
     public PostMinimalDTO createPostOnUserId(PostCreationDTO newPost, long userId, long channelId) {
-        boolean titleExists = postRepository.existsByTitleIgnoreCase(newPost.getTitle());
+        boolean titleExists = postRepository.existsByTitleIgnoreCaseAndChannel_Id(newPost.getTitle(), channelId);
         if (!titleExists) {
             Channel channel = channelRepository.findById(channelId).orElse(null);
             User user = userRepository.findById(userId).orElse(null);
@@ -52,7 +52,7 @@ public class UserService {
                 return PostMapper.INSTANCE.postToPostMinimalDTO(post);
             }
             return null;
-        } else throw new DuplicateKeyException("Title already exists");
+        } else throw new DuplicateKeyException("Title already exists in this channel");
     }
 
     //Read
