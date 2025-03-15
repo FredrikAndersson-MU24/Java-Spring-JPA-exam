@@ -1,9 +1,9 @@
 package com.example.javaspringjpaexam.controller;
 
+import com.example.javaspringjpaexam.dto.ChannelCreationDTO;
 import com.example.javaspringjpaexam.dto.ChannelDTO;
 import com.example.javaspringjpaexam.service.ChannelService;
 import com.example.javaspringjpaexam.dto.PostMinimalDTO;
-import com.example.javaspringjpaexam.entity.Channel;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class ChannelController {
 
     //Create
     @PostMapping
-    public ResponseEntity<ChannelDTO> createChannel(@RequestBody @Valid Channel newChannel) {
+    public ResponseEntity<ChannelDTO> createChannel(@RequestBody @Valid ChannelCreationDTO newChannel) {
         return ResponseEntity.ok(channelService.createChannel(newChannel));
     }
 
@@ -60,7 +60,7 @@ public class ChannelController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<ChannelDTO> updateChannel(@RequestBody @Valid Channel channelToUpdate, @PathVariable long id) {
+    public ResponseEntity<ChannelDTO> updateChannel(@RequestBody @Valid ChannelCreationDTO channelToUpdate, @PathVariable long id) {
         ChannelDTO channel = channelService.updateChannelByID(channelToUpdate, id);
         if (channel != null) {
             return ResponseEntity.ok(channel);

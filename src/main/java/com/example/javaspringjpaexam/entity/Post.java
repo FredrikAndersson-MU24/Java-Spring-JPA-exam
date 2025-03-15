@@ -13,7 +13,7 @@ import java.time.LocalDate;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 @Entity
-@Table(name = "posts")
+@Table(name = "posts", uniqueConstraints = { @UniqueConstraint(columnNames = {"title", "channel_id", "user_id"})})
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class Post {
     @Size(min = 6, max = 32, message = "The post title must be 6-32 characters.")
     private String title;
     @NotNull
-    @Size(min = 4, max = 160, message = "The body of the post must be 4-160 characters.")
+    @Size(min = 6, max = 160, message = "The body of the post must be 6-160 characters.")
     private String body;
     @CreationTimestamp
     private LocalDate posted;

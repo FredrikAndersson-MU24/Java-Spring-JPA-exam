@@ -87,7 +87,7 @@ Syntax for creating a post
 |         | Find a user by ID                           | `/{id}`                         |                                                                     | `UserDetailedDTO`       |
 |         | Find a users posts by user ID               | `/{userId}/posts`               |                                                                     | `List<PostDetailedDTO>` |
 |         | Find users by username                      | `/find/byUsername/{searchTerm}` |                                                                     | `List<UserMinimalDTO>`  |
-|         | Find users by username, first and last name | `/find/byAll/{searchTerm}`      |                                                                     | `List<UserMinimalDTO>`  |
+|         | Find users by username, first and last name | `/find/byAll/{searchTerm}`      |                                                                     | `List<UserDetailedDTO>` |
 | PUT     | Update a user by ID                         | `/{id}`                         | Username must be unique, no null values                             | `UserMinimalDTO`        |
 | DELETE  | Delete a user by ID                         | `/{id}`                         |                                                                     | `void`                  |
 

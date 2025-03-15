@@ -1,15 +1,15 @@
 package com.example.javaspringjpaexam.service;
 
-import com.example.javaspringjpaexam.dto.ChannelDTO;
-import com.example.javaspringjpaexam.dto.PostDetailedDTO;
-import com.example.javaspringjpaexam.dto.PostMinimalDTO;
+import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.entity.Channel;
 import com.example.javaspringjpaexam.entity.Post;
 import com.example.javaspringjpaexam.mapper.ChannelMapper;
 import com.example.javaspringjpaexam.mapper.PostMapper;
 import com.example.javaspringjpaexam.repository.ChannelRepository;
 import com.example.javaspringjpaexam.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.apache.coyote.BadRequestException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +27,12 @@ public class ChannelService {
     }
 
     // Create
-    public ChannelDTO createChannel(Channel newChannel) {
-        return ChannelMapper.INSTANCE.channelToChannelDTO(channelRepository.save(newChannel));
+    public ChannelDTO createChannel(ChannelCreationDTO newChannel) {
+        boolean titleExists = channelRepository.existsByNameIgnoreCase(newChannel.getName());
+        if (!titleExists) {
+            Channel channel = ChannelMapper.INSTANCE.channelCreationDTOToChannel(newChannel);
+            return ChannelMapper.INSTANCE.channelToChannelDTO(channelRepository.save(channel));
+        } else throw new DuplicateKeyException("Channel name already exists");
     }
 
     //Read
@@ -57,19 +61,21 @@ public class ChannelService {
     }
 
     //Update
-    public ChannelDTO updateChannelByID(Channel channelToUpdate, long id) {
-        Channel channel = channelRepository.findById(id).orElse(null);
-        if (channel != null) {
-            channel.setName(channelToUpdate.getName());
-            return ChannelMapper.INSTANCE.channelToChannelDTO(channelRepository.save(channel));
-        }
-        return null;
+    public ChannelDTO updateChannelByID(ChannelCreationDTO channelToUpdate, long id) {
+        boolean titleExists = channelRepository.existsByNameIgnoreCase(channelToUpdate.getName());
+        if (!titleExists) {
+            Channel channel = channelRepository.findById(id).orElse(null);
+            if (channel != null) {
+                channel.setName(channelToUpdate.getName());
+                return ChannelMapper.INSTANCE.channelToChannelDTO(channelRepository.save(channel));
+            }else throw new EntityNotFoundException("Channel ID not found");
+        } else throw new DuplicateKeyException("Channel name already exists");
     }
 
     //Delete
-    public void deleteChannelById(long id) throws BadRequestException {
+    public void deleteChannelById(long id) {
         if (getChannelById(id) != null) {
             channelRepository.deleteById(id);
-        } else throw new BadRequestException("Channel not found");
+        } else throw new EntityNotFoundException("Channel ID not found");
     }
 }

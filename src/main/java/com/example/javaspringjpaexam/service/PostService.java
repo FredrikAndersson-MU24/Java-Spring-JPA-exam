@@ -1,10 +1,11 @@
 package com.example.javaspringjpaexam.service;
 
-import com.example.javaspringjpaexam.dto.PostDetailedDTO;
-import com.example.javaspringjpaexam.dto.PostMinimalDTO;
+import com.example.javaspringjpaexam.dto.*;
 import com.example.javaspringjpaexam.entity.Post;
 import com.example.javaspringjpaexam.mapper.PostMapper;
 import com.example.javaspringjpaexam.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -39,22 +40,25 @@ public class PostService {
     }
 
     //Update
-    public Post updatePostOnPostId(Post updatedPost, long id) {
-        return postRepository.findById(id).map(p -> {
-            p.setTitle(updatedPost.getTitle());
-            p.setBody(updatedPost.getBody());
-            p.setEdited(LocalDate.now());
-            return postRepository.save(p);
-        }).orElse(null);
+    public PostDetailedDTO updatePostOnPostId(PostCreationDTO updatedPost, long id) {
+        boolean titleExists = postRepository.existsByTitleIgnoreCase(updatedPost.getTitle());
+        if (!titleExists) {
+            Post post = postRepository.findById(id).map(p -> {
+                p.setTitle(updatedPost.getTitle());
+                p.setBody(updatedPost.getBody());
+                p.setEdited(LocalDate.now());
+                return postRepository.save(p);
+            }).orElse(null);
+            return PostMapper.INSTANCE.postToPostDetailedDTO(post);
+        } else throw new DuplicateKeyException("Title already exists");
     }
 
     //Delete
-    public boolean deletePostById(long id) {
+    public void deletePostById(long id) {
         boolean exists = postRepository.existsById(id);
         if (exists) {
             postRepository.deleteById(id);
-        }
-        return exists;
+        }        else throw new EntityNotFoundException("Post ID not found");
     }
 
 }
