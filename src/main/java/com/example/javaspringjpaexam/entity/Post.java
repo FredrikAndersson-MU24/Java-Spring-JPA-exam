@@ -13,7 +13,7 @@ import java.time.LocalDate;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 @Entity
-@Table(name = "posts")
+@Table(name = "posts", uniqueConstraints = { @UniqueConstraint(columnNames = {"title", "channel_id", "user_id"})})
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
