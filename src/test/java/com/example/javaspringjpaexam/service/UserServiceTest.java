@@ -5,7 +5,6 @@ import com.example.javaspringjpaexam.dto.UserMinimalDTO;
 import com.example.javaspringjpaexam.entity.User;
 import com.example.javaspringjpaexam.mapper.UserMapper;
 import com.example.javaspringjpaexam.repository.UserRepository;
-import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -56,12 +55,10 @@ class UserServiceTest {
         UserCreationDTO testUserCreationDTO = new UserCreationDTO("TestUsername", "TestFirstName", "TestLastName");
         when(userRepository.existsByUsernameIgnoreCase(any())).thenReturn(true);
 
-        //Assert
+        //Act & Assert
         assertThrows(DuplicateKeyException.class, () -> userService.addUser(testUserCreationDTO));
         verify(userRepository).existsByUsernameIgnoreCase(any());
 
     }
-
-
 
 }
