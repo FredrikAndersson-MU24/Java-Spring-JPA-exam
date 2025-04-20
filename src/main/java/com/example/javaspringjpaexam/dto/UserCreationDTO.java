@@ -6,6 +6,11 @@ public class UserCreationDTO {
     private String firstName;
     private String lastName;
 
+    public UserCreationDTO(String username, String firstName, String lastName) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public String getUsername() {
         return username;
