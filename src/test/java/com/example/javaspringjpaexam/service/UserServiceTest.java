@@ -20,12 +20,16 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
+    //Mocking the repository class, to isolate the test to the service class.
     @Mock
     private UserRepository userRepository;
 
+    //The mocked repository class is injected into the service class
     @InjectMocks
     private UserService userService;
 
+    //A UserCreationDTO is passed as an argument to addUser(). If the username does NOT already exist,
+    //addUser() should return an instance of UserMinimalDTO.
     @Test
     public void addUserShouldReturnUserMinimalDTOIfUsernameDoesNotAlreadyExist() {
 
@@ -43,6 +47,8 @@ class UserServiceTest {
 
     }
 
+    //A UserCreationDTO is passed as an argument to addUser(). If the username DOES already exist,
+    //addUser() should throw a DuplicateKeyException.
     @Test
     public void addUserShouldThrowDuplicateKeyExceptionIfUsernameAlreadyExist() {
 
