@@ -4,11 +4,11 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestControllerAdvice
 public class ExceptionHandler {
@@ -33,6 +33,16 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(EntityNotFoundException.class)
     public String handleEntityNotFound(EntityNotFoundException exception) {
         return exception.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String>  handleInvalidInput(MethodArgumentNotValidException exception) {
+        Map<String, String> errors = new HashMap<>();
+        exception.getBindingResult()
+                .getFieldErrors()
+                .forEach(e -> errors.put(e.getField(), e.getDefaultMessage()));
+        return errors;
     }
 
 }
