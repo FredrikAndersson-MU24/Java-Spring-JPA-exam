@@ -5,6 +5,11 @@ public class UserMinimalDTO {
     private long id;
     private String username;
 
+    public UserMinimalDTO(long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+
     public long getId() {
         return id;
     }
