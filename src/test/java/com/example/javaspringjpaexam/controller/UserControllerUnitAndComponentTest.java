@@ -2,7 +2,6 @@ package com.example.javaspringjpaexam.controller;
 
 import com.example.javaspringjpaexam.dto.UserCreationDTO;
 
-import com.example.javaspringjpaexam.dto.UserMinimalDTO;
 import com.example.javaspringjpaexam.entity.User;
 import com.example.javaspringjpaexam.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,13 +17,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest
-class UserControllerComponentTest {
+class UserControllerUnitAndComponentTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,12 +31,11 @@ class UserControllerComponentTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+
     // Component tests for the addUser() method in the UserController. addUser() is called when making a POST request
     // on the "/users" end-point.
-
-
-    // A series of component tests that tests if using a POST request with a valid UserCreationDTO request body returns
-    // status code 200 and the created user.
+    // To isolate the test data from production data, these tests use the application-test.properties configuration.
+    // A valid  request body should return status code 200 and the created user.
 
     // Test with a valid request body, where username length is shorter than the maximum allowed number of characters
     @Test
@@ -79,8 +76,9 @@ class UserControllerComponentTest {
     }
 
 
-    // A series of component tests that test if a Bad Request exception is thrown if one or more fields in the request body is
+    // A series of unit tests that test if a Bad Request exception is thrown if one or more fields in the request body is
     // blank or null. The purpose is to catch creation of invalid user objects.
+    // I consider these tests unit tests, since the validation of the request is done in the controller layer.
 
     //Throw exception if username field is blank
     @Test
@@ -156,8 +154,7 @@ class UserControllerComponentTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.username").value("must not be blank or null"))
                 .andExpect(jsonPath("$.firstName").value("must not be blank or null"))
-                .andExpect(jsonPath("$.lastName").value("must not be blank or null"))
-                .andDo(print());
+                .andExpect(jsonPath("$.lastName").value("must not be blank or null"));
 
     }
 
@@ -174,8 +171,7 @@ class UserControllerComponentTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.username").value("must not be blank or null"))
                 .andExpect(jsonPath("$.firstName").value("must not be blank or null"))
-                .andExpect(jsonPath("$.lastName").value("must not be blank or null"))
-                .andDo(print());
+                .andExpect(jsonPath("$.lastName").value("must not be blank or null"));
 
     }
 
@@ -190,8 +186,7 @@ class UserControllerComponentTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testUserCreationDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.username").value("Username can be max 32 chars"))
-                .andDo(print());
+                .andExpect(jsonPath("$.username").value("Username can be max 32 chars"));
 
     }
 
