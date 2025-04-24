@@ -35,19 +35,21 @@ public class UserControllerIntegrationTest {
         UserCreationDTO newUser = new UserCreationDTO("TestUsername", "TestFirstName", "TestLastName");
 
         //Act
-        ResponseEntity<UserMinimalDTO> postResponse = testRestTemplate.postForEntity(
-                "http://localhost:" + port + "/users", newUser,
-                UserMinimalDTO.class);
+        ResponseEntity<UserMinimalDTO> postResponse = testRestTemplate
+                .postForEntity("http://localhost:" + port + "/users", newUser, UserMinimalDTO.class);
         Long userId = postResponse.getBody().getId();
-        ResponseEntity<UserDetailedDTO> getResponse = testRestTemplate.getForEntity("http://localhost:" + port + "/users/" + userId, UserDetailedDTO.class);
+        ResponseEntity<UserDetailedDTO> getResponse = testRestTemplate
+                .getForEntity("http://localhost:" + port + "/users/" + userId, UserDetailedDTO.class);
 
         //Assert
-        assertEquals(HttpStatusCode.valueOf(200), postResponse.getStatusCode()); // Verify Status 200 for POST request
-        assertEquals(HttpStatusCode.valueOf(200), getResponse.getStatusCode()); // Verify Status 200 for GET request
+        assertEquals(HttpStatusCode.valueOf(200),
+                postResponse.getStatusCode()); // Verify status code 200 for POST request
+        assertEquals(HttpStatusCode.valueOf(200),
+                getResponse.getStatusCode()); // Verify status code 200 for GET request
         assertEquals(userId, getResponse.getBody().getId()); // Verify that the User ID matches for both requests
         assertEquals(newUser.getUsername(), getResponse.getBody().getUsername()); // Verify that the usernames match
-    }
 
+    }
 
     // POST a new user to the database, DELETE the user, verify both requests
     @Test
@@ -56,19 +58,24 @@ public class UserControllerIntegrationTest {
         //Arrange
         UserCreationDTO newUser = new UserCreationDTO("TestUsername2", "TestFirstName", "TestLastName");
 
-        //Act & Assert
-        ResponseEntity<UserMinimalDTO> postResponse = testRestTemplate.postForEntity(
-                "http://localhost:" + port + "/users", newUser,
-                UserMinimalDTO.class);
+        //Act
+        ResponseEntity<UserMinimalDTO> postResponse = testRestTemplate
+                .postForEntity("http://localhost:" + port + "/users", newUser, UserMinimalDTO.class);
         Long userId = postResponse.getBody().getId();
-        assertTrue(postResponse.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200))); // Verify Status 200
+
+        //Assert
+        assertEquals(HttpStatusCode.valueOf(200),
+                postResponse.getStatusCode()); // Verify status code 200
         assertEquals(testRestTemplate
                 .getForEntity("http://localhost:" + port + "/users/" + userId, UserDetailedDTO.class)
                 .getBody()
                 .getUsername(), newUser.getUsername()); // Verify that the username is correct
-
-        testRestTemplate.delete("http://localhost:" + port + "/users/" + userId);
-        assertTrue(testRestTemplate.getForEntity("http://localhost:" + port + "/users/" + userId, UserDetailedDTO.class).getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(404)));
+        testRestTemplate
+                .delete("http://localhost:" + port + "/users/" + userId);
+        assertEquals(HttpStatusCode.valueOf(404),
+                testRestTemplate
+                .getForEntity("http://localhost:" + port + "/users/" + userId, UserDetailedDTO.class)
+                        .getStatusCode()); // Verify status code 404
 
     }
 
