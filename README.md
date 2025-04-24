@@ -1,7 +1,33 @@
 # Testing
 
-SETUP
-application-test.properties
+<!-- TOC -->
+* [Testing](#testing)
+  * [1. Setup](#1-setup)
+    * [Environmental variables](#environmental-variables)
+  * [2. UserServiceUnitTest - Testing the service layer](#2-userserviceunittest---testing-the-service-layer)
+    * [The purpose of the tests](#the-purpose-of-the-tests)
+    * [Test strategy](#test-strategy)
+  * [3. UserControllerUnitAndComponentTest - Unit and component tests for the controller](#3-usercontrollerunitandcomponenttest---unit-and-component-tests-for-the-controller)
+    * [The purpose of the tests](#the-purpose-of-the-tests-1)
+    * [Test strategy](#test-strategy-1)
+      * [Component tests](#component-tests)
+      * [Unit tests](#unit-tests)
+  * [4. UserControllerIntegrationTest - Testing controller layer to database](#4-usercontrollerintegrationtest---testing-controller-layer-to-database)
+    * [The purpose of the tests](#the-purpose-of-the-tests-2)
+    * [Test strategy](#test-strategy-2)
+<!-- TOC -->
+
+## 1. Setup
+
+The application-test.properties config file is used throughout these tests, specifying a separate test database.
+This is in part to isolate test data from production data. But also because the standard config file tries to write
+example data to the database each time it runs, which will affect the generated IDs and the tests should not be
+allowed to affect that. `create-drop` is used in the config file to clear the database before each test run, to make 
+sure there is no old data interfering with the tests. 
+
+### Environmental variables
+
+These environmental variables are used in the application-test.properties configuration file.
 
 | Name             | 
 |------------------|
@@ -9,66 +35,94 @@ application-test.properties
 | `MYSQL_USERNAME` |
 | `MYSQL_PASSWORD` |
 
-## UserControllerComponentTest - Component tests for the UserController
+---
 
-### The purpose of the component tests
+## 2. UserServiceUnitTest - Testing the service layer
 
-The purpose of the component tests is to verify the functionality between layers in the application. In the case of these
-specific component tests, the interaction between
+### The purpose of the tests
+
+Unit tests are used to test individual layers. One or more methods can be tested, but the test should be isolated to one
+layer. Any interaction with other layers should be mocked.
 
 ### Test strategy
 
-The POST request should contain a UserCreationDTO request body, with the fields `username`, `firstName` and
-`lastName`.  
-First is a positive test, checking that the expected response is sent if a valid request is received.  
-The later tests
-are negative tests, to test if the correct exception is thrown if the request body is not valid.
+I have used Mockito to create a mocked instance of the repository, then injecting it into the service class.
+Using the when().thenReturn() pattern I control what is returned from the mocked repository when the save() method is
+invoked.
 
-- ### Positive test to verify the response if a valid request is received
+| Test method                                                      | Scenario                                               |
+|------------------------------------------------------------------|--------------------------------------------------------|
+| addUserShouldReturnUserMinimalDTOIfUsernameDoesNotAlreadyExist() | Create a new valid user                                |
+| addUserShouldThrowDuplicateKeyExceptionIfUsernameAlreadyExist()  | Create a new user with a username that already exists. |
+
+---
+
+## 3. UserControllerUnitAndComponentTest - Unit and component tests for the controller
+
+### The purpose of the tests
+
+The purpose of the component test is to verify actual interaction between layers in the application. In the case of
+these specific component tests, the interaction between the controller and service layers are tested.  
+Unit tests are used to test individual layers. One or more methods can be tested, but the test should be isolated to one
+layer. Here I test that a Bad Request Exception is thrown if the request body are invalid.
+
+### Test strategy
+
+I chose to use the AutoConfigureMockMvc annotation to use MockMvc for making HTTP requests.  
+SpringbootTest is used to load the application context.  
+The controller and service layers interact as they should.  
+The repository layer is mocked using the MockitoBean annotation, to not interact with the database.
+
+I consider the component tests to be positive tests, as they test that the expected response is received if a valid 
+request is sent.  
+The unit test on the other hand are negative tests, since they test the response if the request is invalid.
+
+The POST request should contain a UserCreationDTO request body, with the fields `username`, `firstName` and
+`lastName`.
+
+#### Component tests
 
 When receiving a POST request with a valid UserCreationDTO request body to the "/users" end-point, the addUser() method
 should respond with HTTP status 200 and a UserMinimalDTO.
 
-| Test                                                                       | What part of the request body is tested?      |
+| Test method                                                                | Scenario                                      |
 |----------------------------------------------------------------------------|-----------------------------------------------|
 | addUserShouldRespondWithUserMinimalDTOAndStatusOk()                        | Valid UserCreationDTO                         |
 | addUserShouldRespondWithUserMinimalDTOAndStatusOkWhenUsernameIsMaxLength() | Valid UserCreationDTO, w username of 32 chars |
 
-- ### A series of tests to verify that a BadRequestException is thrown if the POST request body does not meet the validation criteria-
+#### Unit tests
 
-They should all respond with HTTP Status code 400 Bad Request and the exception message.
+Expected response: HTTP Status code 400 Bad Request and exception message.
 
-| Test                                                             | Scenario                                 |
+| Test method                                                      | Scenario                                 |
 |------------------------------------------------------------------|------------------------------------------|
 | addUserShouldThrowExceptionWhenBlankUsernameField()              | `username` blank.                        |
 | addUserShouldThrowExceptionWhenBlankFirstNameField()             | `firstName` blank.                       |
 | addUserShouldThrowExceptionWhenBlankLastNameField()              | `lastName` blank.                        |
-| addUserShouldThrowExceptionWhenBlankFirstNAmeAndLastNameFields() | `firstName` and `lastName` fields blank. |
+| addUserShouldThrowExceptionWhenBlankFirstNameAndLastNameFields() | `firstName` and `lastName` fields blank. |
 | addUserShouldThrowExceptionWhenAllFieldsBlank()                  | All fields blank.                        |
 | addUserShouldThrowExceptionWhenAllFieldsNull()                   | All fields `null`.                       |
 | addUserShouldThrowExceptionWhenUsernameLongerThan32Chars()       | `username` longer than max 32 chars.     |
 
-## UserControllerIntegrationTest - Testing from controller layer to database
+---
 
-### The purpose of the integration test
+## 4. UserControllerIntegrationTest - Testing controller layer to database
 
-To test all the parts from an HTTP request all the way to the database, verifying the correct response
-status and bodies.
+### The purpose of the tests
+
+The purpose of these integration tests is to test all the parts from an HTTP request all the way to the database, 
+verifying the correct response status and bodies. 
 
 ### Test strategy
 
-Utilizing SpringBootTest to set up a temporary server and using TestRestTemplate to interact with it, I can simulate the
-behavior of the actual server, but in an isolated environment. The tests are done with a live database, that is separate
-from the production database, to make sure the test data is isolated.
-
-These tests use the application-test.properties configuration file (See setup at the top of the page). When running a
-test, the database is cleared using the create-drop keyword, to make sure there is no data interfering with the tests.
+Utilizing SpringBootTest WebEnvironment to set up a temporary server and using TestRestTemplate to interact with it, I
+simulate the behavior of the actual server, but in an isolated environment.  
 
 When sending a POST request with a valid request body, HTTP status 200 and a UserMinimalDTO is expected.  
 When sending a GET request with a valid user ID, HTTP status 200 and a UserDetailedDTO is expected.  
 When sending a DELETE request with a valid user ID, HTTP status 200 is expected.
 
-| Test                                | Scenario                                   |
+| Test method                         | Scenario                                   |
 |-------------------------------------|--------------------------------------------|
 | testSaveAndGetUserFromDatabase()    | Save user to DB, then get user from DB.    |
 | testSaveAndDeleteUserFromDatabase() | Save user to DB, then delete user from DB. |
