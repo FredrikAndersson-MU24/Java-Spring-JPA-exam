@@ -17,13 +17,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceUnitTest {
 
-    //Mocking the repository class, to isolate the test to the service class.
+    //Mocking the repository interface, to isolate the test to the service class.
     @Mock
     private UserRepository userRepository;
 
-    //The mocked repository class is injected into the service class
+    //The mocked repository is injected into the service class
     @InjectMocks
     private UserService userService;
 
