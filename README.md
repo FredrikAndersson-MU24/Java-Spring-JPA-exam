@@ -2,8 +2,7 @@
 
 <!-- TOC -->
 * [Testing](#testing)
-  * [Assigment](#assigment)
-  * [Assigment in full (Swedish)](#assigment-in-full--swedish-)
+  * [Assignment](#assignment)
   * [Project description](#project-description)
   * [Setup](#setup)
     * [Environmental variables](#environmental-variables)
@@ -27,7 +26,7 @@
 
 ---
 
-## Assigment
+## Assignment
 
 Using a Spring Boot project, demonstrate your understanding of and ability to implement various types of tests.
 The assignment required covering three types of tests:
@@ -35,7 +34,8 @@ The assignment required covering three types of tests:
 - component tests.
 - integration tests.  
 
-[Assigment in full (Swedish)](https://gist.github.com/nz-bill/9bc3d6b7146cb68fa41c5d5ffc9c17cf)
+[Assigment in full (Swedish)](https://gist.github.com/nz-bill/9bc3d6b7146cb68fa41c5d5ffc9c17cf)  
+
 ---
 ## Project description
 
