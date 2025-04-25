@@ -14,8 +14,10 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// This is an integration test, testing the whole way from the controller layer to the database.
-// To isolate the test data from production data, these tests use the application-test.properties configuration.
+// These are integration tests, testing the whole way from the controller layer to the database.
+// I have used TestRestTemplate to send the HTTP requests and save the response.
+// To isolate the test data from production data,
+// these tests use the application-test.properties configuration.
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

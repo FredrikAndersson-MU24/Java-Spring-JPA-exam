@@ -34,7 +34,8 @@ class UserControllerUnitAndComponentTest {
 
     // Component tests for the addUser() method in the UserController. addUser() is called when making a POST request
     // on the "/users" end-point.
-    // To isolate the test data from production data, these tests use the application-test.properties configuration.
+    // To not affect the generation of IDs in the production database,
+    // these tests use the application-test.properties configuration.
     // A valid  request body should return status code 200 and the created user.
 
     // Test with a valid request body, where username length is shorter than the maximum allowed number of characters

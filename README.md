@@ -2,32 +2,60 @@
 
 <!-- TOC -->
 * [Testing](#testing)
-  * [1. Setup](#1-setup)
+  * [Assigment](#assigment)
+  * [Project description](#project-description)
+  * [Setup](#setup)
     * [Environmental variables](#environmental-variables)
-  * [2. UserServiceUnitTest - Testing the service layer](#2-userserviceunittest---testing-the-service-layer)
+  * [UserServiceUnitTest - Testing the service layer](#userserviceunittest---testing-the-service-layer)
     * [The purpose of the tests](#the-purpose-of-the-tests)
     * [Test strategy](#test-strategy)
-  * [3. UserControllerUnitAndComponentTest - Unit and component tests for the controller](#3-usercontrollerunitandcomponenttest---unit-and-component-tests-for-the-controller)
+  * [UserControllerUnitAndComponentTest - Unit and component tests for the controller](#usercontrollerunitandcomponenttest---unit-and-component-tests-for-the-controller)
     * [The purpose of the tests](#the-purpose-of-the-tests-1)
     * [Test strategy](#test-strategy-1)
       * [Component tests](#component-tests)
       * [Unit tests](#unit-tests)
-  * [4. UserControllerIntegrationTest - Testing controller layer to database](#4-usercontrollerintegrationtest---testing-controller-layer-to-database)
+  * [UserControllerIntegrationTest - Testing controller layer to database](#usercontrollerintegrationtest---testing-controller-layer-to-database)
     * [The purpose of the tests](#the-purpose-of-the-tests-2)
     * [Test strategy](#test-strategy-2)
+  * [Abilities used for this assignment](#abilities-used-for-this-assignment)
+    * [Technical](#technical)
+    * [Soft](#soft)
 <!-- TOC -->
 
-## 1. Setup
+---
+
+## Assigment
+
+Using a Spring Boot project, demonstrate your understanding of and ability to implement various types of tests.
+The assignment required covering three types of tests:
+- unit tests.
+- component tests.
+- integration tests.
+
+- [Assigment in full (Swedish)](https://gist.github.com/nz-bill/9bc3d6b7146cb68fa41c5d5ffc9c17cf)
+---
+## Project description
+
+The base project is a Spring Boot application from a previous assigment. It's a REST API for a message board service where 
+users can register and post messages in channels. As the user is the core of the service, I decided to focus the tests 
+around the functionality for creating new users.
+
+I have set up sections below, with the name of each test class, to describe the purpose and strategy of each test. 
+
+---
+## Setup
 
 The application-test.properties config file is used throughout these tests, specifying a separate test database.
 This is in part to isolate test data from production data. But also because the standard config file tries to write
 example data to the database each time it runs, which will affect the generated IDs and the tests should not be
 allowed to affect that. `create-drop` is used in the config file to clear the database before each test run, to make 
 sure there is no old data interfering with the tests. 
-
+---
 ### Environmental variables
 
-These environmental variables are used in the application-test.properties configuration file.
+These environmental variables are used in application-test.properties. Set them up according to your MySQL preferences
+in each of the test class configurations in your IDE. If you want to run individual test, you also need to set up the 
+configuration for that specific test, otherwise the standard application.properties is used and you will get an error.
 
 | Name             | 
 |------------------|
@@ -37,7 +65,7 @@ These environmental variables are used in the application-test.properties config
 
 ---
 
-## 2. UserServiceUnitTest - Testing the service layer
+## UserServiceUnitTest - Testing the service layer
 
 ### The purpose of the tests
 
@@ -57,7 +85,7 @@ invoked.
 
 ---
 
-## 3. UserControllerUnitAndComponentTest - Unit and component tests for the controller
+## UserControllerUnitAndComponentTest - Unit and component tests for the controller
 
 ### The purpose of the tests
 
@@ -106,7 +134,7 @@ Expected response: HTTP Status code 400 Bad Request and exception message.
 
 ---
 
-## 4. UserControllerIntegrationTest - Testing controller layer to database
+## UserControllerIntegrationTest - Testing controller layer to database
 
 ### The purpose of the tests
 
@@ -126,3 +154,24 @@ When sending a DELETE request with a valid user ID, HTTP status 200 is expected.
 |-------------------------------------|--------------------------------------------|
 | testSaveAndGetUserFromDatabase()    | Save user to DB, then get user from DB.    |
 | testSaveAndDeleteUserFromDatabase() | Save user to DB, then delete user from DB. |
+
+---
+
+## Abilities used for this assignment
+### Technical
+- Java
+  - Spring Boot
+  - Mockito
+  - Junit
+  - SpringBootTest
+- Documentation
+- IntelliJ Idea
+- Git
+- GitHub
+- Jira
+### Soft
+- Problem solving
+- Structuring
+- Adaptability 
+- Creativity
+- English
