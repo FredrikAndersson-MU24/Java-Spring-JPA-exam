@@ -174,3 +174,4 @@ When sending a DELETE request with a valid user ID, HTTP status 200 is expected.
 - Structuring
 - Adaptability 
 - Creativity
+- English
