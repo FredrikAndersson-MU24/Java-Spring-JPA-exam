@@ -3,20 +3,23 @@
 <!-- TOC -->
 * [Testing](#testing)
   * [Assigment](#assigment)
+  * [Assigment in full (Swedish)](#assigment-in-full--swedish-)
   * [Project description](#project-description)
   * [Setup](#setup)
     * [Environmental variables](#environmental-variables)
   * [UserServiceUnitTest - Testing the service layer](#userserviceunittest---testing-the-service-layer)
     * [The purpose of the tests](#the-purpose-of-the-tests)
     * [Test strategy](#test-strategy)
+      * [Unit tests](#unit-tests)
   * [UserControllerUnitAndComponentTest - Unit and component tests for the controller](#usercontrollerunitandcomponenttest---unit-and-component-tests-for-the-controller)
     * [The purpose of the tests](#the-purpose-of-the-tests-1)
     * [Test strategy](#test-strategy-1)
       * [Component tests](#component-tests)
-      * [Unit tests](#unit-tests)
+      * [Unit tests](#unit-tests-1)
   * [UserControllerIntegrationTest - Testing controller layer to database](#usercontrollerintegrationtest---testing-controller-layer-to-database)
     * [The purpose of the tests](#the-purpose-of-the-tests-2)
     * [Test strategy](#test-strategy-2)
+      * [Integration tests](#integration-tests)
   * [Abilities used for this assignment](#abilities-used-for-this-assignment)
     * [Technical](#technical)
     * [Soft](#soft)
@@ -30,9 +33,9 @@ Using a Spring Boot project, demonstrate your understanding of and ability to im
 The assignment required covering three types of tests:
 - unit tests.
 - component tests.
-- integration tests.
+- integration tests.  
 
-- [Assigment in full (Swedish)](https://gist.github.com/nz-bill/9bc3d6b7146cb68fa41c5d5ffc9c17cf)
+[Assigment in full (Swedish)](https://gist.github.com/nz-bill/9bc3d6b7146cb68fa41c5d5ffc9c17cf)
 ---
 ## Project description
 
@@ -49,8 +52,8 @@ The application-test.properties config file is used throughout these tests, spec
 This is in part to isolate test data from production data. But also because the standard config file tries to write
 example data to the database each time it runs, which will affect the generated IDs and the tests should not be
 allowed to affect that. `create-drop` is used in the config file to clear the database before each test run, to make 
-sure there is no old data interfering with the tests. 
----
+sure there is no old data interfering with the tests.
+
 ### Environmental variables
 
 These environmental variables are used in application-test.properties. Set them up according to your MySQL preferences
@@ -76,7 +79,12 @@ layer. Any interaction with other layers should be mocked.
 
 I have used Mockito to create a mocked instance of the repository, then injecting it into the service class.
 Using the when().thenReturn() pattern I control what is returned from the mocked repository when the save() method is
-invoked.
+invoked.  
+
+#### Unit tests
+
+If the username does NOT already exist, the user should be created successfully and returned as UserMinimalDTO.
+If the username DOES already exist, a duplicate key exception should be thrown.
 
 | Test method                                                      | Scenario                                               |
 |------------------------------------------------------------------|--------------------------------------------------------|
@@ -145,6 +153,8 @@ verifying the correct response status and bodies.
 
 Utilizing SpringBootTest WebEnvironment to set up a temporary server and using TestRestTemplate to interact with it, I
 simulate the behavior of the actual server, but in an isolated environment.  
+
+#### Integration tests
 
 When sending a POST request with a valid request body, HTTP status 200 and a UserMinimalDTO is expected.  
 When sending a GET request with a valid user ID, HTTP status 200 and a UserDetailedDTO is expected.  
